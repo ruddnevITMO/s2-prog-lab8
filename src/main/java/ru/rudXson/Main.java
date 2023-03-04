@@ -1,7 +1,10 @@
 package ru.rudXson;
 
+import ru.rudXson.base.CommandExecutor;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Initial commit. This will turn into a beautiful cli tool!");
+        CommandExecutor go = new CommandExecutor();
+        go.StartInteractiveMode();
     }
 }

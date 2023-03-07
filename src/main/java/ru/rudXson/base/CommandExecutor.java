@@ -4,7 +4,6 @@ import ru.rudXson.commands.Command;
 import ru.rudXson.commands.Help;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class CommandExecutor {
@@ -15,10 +14,9 @@ public class CommandExecutor {
 
     }
 
-    public void StartInteractiveMode(){
-        Scanner scanner = new Scanner(System.in);
+    public void startInteractiveMode(Scanner scanner){
         System.out.println("Entered the interactive mode!");
-        while (true){
+        while (true) {
             System.out.println("Enter command:");
             String [] line = scanner.nextLine().toLowerCase().strip().split(" ");
             if (!commands.containsKey(line[0])){

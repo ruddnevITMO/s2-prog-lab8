@@ -39,6 +39,6 @@ public class Main {
 
         // Execute the interactive command line mode using CommandExecutor
         CommandExecutor go = new CommandExecutor();
-        go.StartInteractiveMode(scanner);
+        go.startInteractiveMode(scanner);
     }
 }

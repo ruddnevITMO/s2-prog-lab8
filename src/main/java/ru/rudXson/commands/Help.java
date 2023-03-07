@@ -9,7 +9,7 @@ public class Help implements Command{
     }
 
     @Override
-    public void execute(String [] args) {
+    public void execute(String[] args) {
         for (String command:commands.keySet()){
             System.out.println(command + " - " + commands.get(command).getDescription());
         }

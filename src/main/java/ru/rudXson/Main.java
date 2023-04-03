@@ -5,7 +5,8 @@ import ru.rudXson.base.Deserializer;
 import ru.rudXson.datatype.Flat;
 
 import ru.rudXson.base.FileValidator;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
@@ -32,13 +33,15 @@ public class Main {
         // Check if file exists and has write access
         FileValidator.checkFile(fileName);
 
-        // Deserialize the file and store the data in a priority queue
+         // Deserialize the file and store the data in a priority queue
         PriorityQueue<Flat> flats = Deserializer.deserialize(fileName);
+        //TODO Error on this (ask for another file)
 
         System.out.println(flats);
 
         // Execute the interactive command line mode using CommandExecutor
         CommandExecutor go = new CommandExecutor();
         go.startInteractiveMode(scanner);
+
     }
 }

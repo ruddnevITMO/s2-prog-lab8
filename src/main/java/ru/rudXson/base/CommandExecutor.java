@@ -24,6 +24,7 @@ public class CommandExecutor {
                 continue;
             }
             commands.get(line[0]).execute(line);
+            //TODO catch errors in commands (NotEnoughArgs and WrongArgs)
         }
     }
 }

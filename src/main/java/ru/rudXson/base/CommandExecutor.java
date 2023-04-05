@@ -2,15 +2,19 @@ package ru.rudXson.base;
 
 import ru.rudXson.commands.Command;
 import ru.rudXson.commands.Help;
+import ru.rudXson.commands.Show;
+import ru.rudXson.datatype.Flat;
 
 import java.util.HashMap;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class CommandExecutor {
     HashMap<String, Command> commands = new HashMap<>();
 
-    public CommandExecutor() {
+    public CommandExecutor(PriorityQueue<Flat> flats) {
         commands.put("help", new Help(commands));
+        commands.put("show", new Show(flats));
 
     }
 

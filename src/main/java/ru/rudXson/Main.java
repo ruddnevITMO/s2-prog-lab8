@@ -40,7 +40,7 @@ public class Main {
         System.out.println(flats);
 
         // Execute the interactive command line mode using CommandExecutor
-        CommandExecutor go = new CommandExecutor();
+        CommandExecutor go = new CommandExecutor(flats);
         go.startInteractiveMode(scanner);
 
     }

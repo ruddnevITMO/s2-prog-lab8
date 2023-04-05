@@ -1,7 +1,5 @@
 package ru.rudXson.datatype;
 
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.UUID;
 
@@ -127,21 +125,18 @@ public class Flat implements Comparable<Flat> {
 
     @Override
     public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        String result = "{\n";
-        result += "\t" + "\u001B[33m\"id\"\u001B[0m: " + "\u001B[36m" + id + "\u001B[0m,\n";
-        result += "\t" + "\u001B[33m\"name\"\u001B[0m: " + "\u001B[32m\"" + name + "\"\u001B[0m,\n";
-        result += "\t" + "\u001B[33m\"coordinates\"\u001B[0m: " + coordinates + ",\n";
-        result += "\t" + "\u001B[33m\"creationDate\"\u001B[0m: " + "\u001B[35m\"" + creationDate.toInstant().atZone(ZoneId.systemDefault()).format(formatter) + "\"\u001B[0m,\n";
-        result += "\t" + "\u001B[33m\"area\"\u001B[0m: " + "\u001B[36m" + area + "\u001B[0m,\n";
-        result += "\t" + "\u001B[33m\"numberOfRooms\"\u001B[0m: " + "\u001B[36m" + numberOfRooms + "\u001B[0m,\n";
-        result += "\t" + "\u001B[33m\"furnish\"\u001B[0m: " + "\u001B[32m\"" + furnish + "\"\u001B[0m,\n";
-        result += "\t" + "\u001B[33m\"view\"\u001B[0m: " + "\u001B[32m\"" + view + "\"\u001B[0m,\n";
-        result += "\t" + "\u001B[33m\"transport\"\u001B[0m: " + "\u001B[32m\"" + transport + "\"\u001B[0m,\n";
-        result += "\t" + "\u001B[33m\"house\"\u001B[0m: " + house + "\n";
-        result += "}";
-
-        return result;
+        return "Flat{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", coordinates=" + coordinates +
+                ", creationDate=" + creationDate +
+                ", area=" + area +
+                ", numberOfRooms=" + numberOfRooms +
+                ", furnish=" + furnish +
+                ", view=" + view +
+                ", transport=" + transport +
+                ", house=" + house +
+                '}';
     }
 
     @Override

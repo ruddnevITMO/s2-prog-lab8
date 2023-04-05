@@ -30,11 +30,4 @@ public class Coordinates {
         }
         this.y = y;
     }
-    @Override
-    public String toString(){
-        return "{\n" +
-                "\t\t" + "\u001B[33m\"x\"\u001B[0m: " + "\u001B[36m" + x + "\u001B[0m,\n" +
-                "\t\t" + "\u001B[33m\"y\"\u001B[0m: " + "\u001B[36m" + y + "\u001B[0m,\n" +
-                "\t}";
-    }
 }

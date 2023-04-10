@@ -2,9 +2,12 @@ package ru.rudXson;
 
 import ru.rudXson.base.CommandExecutor;
 import ru.rudXson.base.Deserializer;
+import ru.rudXson.base.Serializer;
 import ru.rudXson.datatype.Flat;
+import ru.rudXson.base.CLIController;
 
 import ru.rudXson.base.FileValidator;
+import ru.rudXson.exceptions.NoPermission;
 
 import java.io.*;
 import java.util.PriorityQueue;
@@ -17,31 +20,13 @@ public class Main {
      * @param args Command line arguments that specify the name of the input file.
      * @throws IOException If there is an error reading or writing to the file.
      */
-    public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        String fileName;
+    public static void main(String[] args) throws IOException, NoPermission {
+        CLIController controller = new CLIController(args);
 
-        // check if argument is provided
-        if (args.length < 1) {
-            System.out.println("No file name provided.");
-            System.out.print("Please enter file name: ");
-            fileName = scanner.nextLine();
-        } else {
-            fileName = args[0];
-        }
-
-        // Check if file exists and has write access
-        FileValidator.checkFile(fileName);
-
-         // Deserialize the file and store the data in a priority queue
-        PriorityQueue<Flat> flats = Deserializer.deserialize(fileName);
-        //TODO Error on this (ask for another file)
-
-        System.out.println(flats);
-
+        System.out.println(controller.getFlats());
         // Execute the interactive command line mode using CommandExecutor
-        CommandExecutor go = new CommandExecutor(flats);
-        go.startInteractiveMode(scanner);
+        CommandExecutor go = new CommandExecutor(controller);
+        go.startInteractiveMode();
 
     }
 }

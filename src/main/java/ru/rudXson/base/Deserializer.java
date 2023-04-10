@@ -2,12 +2,14 @@ package ru.rudXson.base;
 
 import java.io.*;
 import java.util.PriorityQueue;
-import com.google.gson.Gson;
+
+import com.google.gson.*;
 import ru.rudXson.datatype.Flat;
 
 public class Deserializer {
 
     public static PriorityQueue<Flat> deserialize(String fileName) throws IOException {
+//        Gson gson = new GsonBuilder().registerTypeAdapter(MyEnum[].class, new MyEnumArrayDeserializer().create();
         Gson gson = new Gson();
         PriorityQueue<Flat> queue = new PriorityQueue<>();
 

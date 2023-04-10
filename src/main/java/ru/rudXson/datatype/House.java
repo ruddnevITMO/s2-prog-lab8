@@ -79,9 +79,9 @@ public class House {
     @Override
     public String toString(){
         return "{\n" +
-                "\t\t" + "\u001B[33m\"name\"\u001B[0m: " + "\u001B[36m" + name + "\u001B[0m,\n" +
-                "\t\t" + "\u001B[33m\"year\"\u001B[0m: " + "\u001B[36m" + year + "\u001B[0m,\n" +
-                "\t\t" + "\u001B[33m\"numberOfLifts\"\u001B[0m: " + "\u001B[36m" + numberOfLifts + "\u001B[0m,\n" +
-                "\t}";
+                "\t\t\t" + "\u001B[33m\"name\"\u001B[0m: " + "\u001B[32m\"" + name + "\"\u001B[0m,\n" +
+                "\t\t\t" + "\u001B[33m\"year\"\u001B[0m: " + "\u001B[36m" + year + "\u001B[0m,\n" +
+                "\t\t\t" + "\u001B[33m\"numberOfLifts\"\u001B[0m: " + "\u001B[36m" + numberOfLifts + "\u001B[0m,\n" +
+                "\t\t}";
     }
 }

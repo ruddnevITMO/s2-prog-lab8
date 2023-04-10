@@ -1,9 +1,9 @@
 package ru.rudXson.base;
 
-import ru.rudXson.commands.Command;
-import ru.rudXson.commands.Help;
-import ru.rudXson.commands.Show;
+import ru.rudXson.commands.*;
 import ru.rudXson.datatype.Flat;
+import ru.rudXson.exceptions.NotEnoughArgsException;
+import ru.rudXson.exceptions.WrongArgsException;
 
 import java.util.HashMap;
 import java.util.PriorityQueue;
@@ -12,23 +12,35 @@ import java.util.Scanner;
 public class CommandExecutor {
     HashMap<String, Command> commands = new HashMap<>();
 
-    public CommandExecutor(PriorityQueue<Flat> flats) {
+    CLIController c;
+
+    public CommandExecutor(CLIController c) {
+        this.c = c;
         commands.put("help", new Help(commands));
-        commands.put("show", new Show(flats));
+        commands.put("show", new Show(c.getFlats()));
+        commands.put("add", new Add(c.getScanner(), commands));
+        commands.put("save", new Save(c.getScanner(), c.getFlats(), c.getFileName()));
 
     }
 
-    public void startInteractiveMode(Scanner scanner){
+    public void startInteractiveMode(){
         System.out.println("Entered the interactive mode!");
         while (true) {
-            System.out.println("Enter command:");
-            String [] line = scanner.nextLine().toLowerCase().strip().split(" ");
+            System.out.print("Enter command: ");
+            String [] line = c.getScanner().nextLine().toLowerCase().strip().split(" ");
             if (!commands.containsKey(line[0])){
                 System.out.println("This command doesn't exist");
                 continue;
             }
-            commands.get(line[0]).execute(line);
-            //TODO catch errors in commands (NotEnoughArgs and WrongArgs)
+            try {
+                commands.get(line[0]).execute(line);
+//            } catch (NotEnoughArgsException e) {
+//                System.out.println("Not enough arguments. Usage: " + e.getUsage());
+//            } catch (WrongArgsException e) {
+//                System.out.println("Wrong arguments. Usage: " + e.getUsage());
+            } catch (Exception e) {
+                System.out.println("An error occurred: " + e.getMessage());
+            }
         }
     }
 }

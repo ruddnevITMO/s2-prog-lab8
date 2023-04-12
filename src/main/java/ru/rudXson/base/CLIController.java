@@ -1,9 +1,11 @@
 package ru.rudXson.base;
 
+import ru.rudXson.commands.Command;
 import ru.rudXson.datatype.Flat;
 import ru.rudXson.exceptions.NoPermission;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
@@ -32,6 +34,11 @@ public class CLIController {
         //TODO Error on this (ask for another file)
     }
 
+    public void addFlat(Flat flat) {
+        flats.add(flat);
+    }
+
+
     // getters and setters
     public String getFileName() {
         return fileName;
@@ -56,4 +63,5 @@ public class CLIController {
     public void setScanner(Scanner scanner) {
         this.scanner = scanner;
     }
+
 }

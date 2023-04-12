@@ -17,9 +17,9 @@ public class CommandExecutor {
     public CommandExecutor(CLIController c) {
         this.c = c;
         commands.put("help", new Help(commands));
-        commands.put("show", new Show(c.getFlats()));
-        commands.put("add", new Add(c.getScanner(), commands));
-        commands.put("save", new Save(c.getScanner(), c.getFlats(), c.getFileName()));
+        commands.put("show", new Show(c));
+        commands.put("add", new Add(c));
+        commands.put("save", new Save(c));
 
     }
 

@@ -3,15 +3,15 @@ package ru.rudXson.commands;
 import java.nio.charset.CoderResult;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import ru.rudXson.base.CLIController;
 import ru.rudXson.datatype.*;
 
 public class Add implements Command {
-    HashMap<String, Command> commands;
-    private final Scanner scanner;
+    CLIController c;
 
-    public Add(Scanner scanner, HashMap<String, Command> commands) {
-        this.commands = commands;
-        this.scanner = scanner;
+    public Add(CLIController c) {
+        this.c = c;
     }
 
     @Override
@@ -55,7 +55,8 @@ public class Add implements Command {
         House house = new House(houseName, year, numberOfLifts);
 
 
-        Flat flat = new Flat(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
+        c.addFlat(new Flat(name, coordinates, area, numberOfRooms, furnish, view, transport, house));
+
     }
 
     @Override
@@ -64,81 +65,81 @@ public class Add implements Command {
     }
 
     private String readNonEmptyString() {
-        String input = scanner.nextLine().trim();
+        String input = c.getScanner().nextLine().trim();
         while (input.isEmpty()) {
             System.out.print("Please enter a non-empty string: ");
-            input = scanner.nextLine().trim();
+            input = c.getScanner().nextLine().trim();
         }
         return input;
     }
 
     private int readCoordinate() {
-        int coordinate = scanner.nextInt();
+        int coordinate = c.getScanner().nextInt();
         while (coordinate > 314) {
             System.out.print("Coordinate can't be greater than 314. Please enter again: ");
-            coordinate = scanner.nextInt();
+            coordinate = c.getScanner().nextInt();
         }
-        scanner.nextLine(); // consume the newline character
+        c.getScanner().nextLine(); // consume the newline character
         return coordinate;
     }
 
     private float readPositiveFloat() {
-        float value = scanner.nextFloat();
+        float value = c.getScanner().nextFloat();
         while (value <= 0) {
             System.out.print("Please enter a positive float: ");
-            value = scanner.nextFloat();
+            value = c.getScanner().nextFloat();
         }
-        scanner.nextLine(); // consume the newline character
+        c.getScanner().nextLine(); // consume the newline character
         return value;
     }
 
     private long readPositiveLong() {
-        long value = scanner.nextLong();
+        long value = c.getScanner().nextLong();
         while (value <= 0) {
             System.out.print("Please enter a positive long: ");
-            value = scanner.nextLong();
+            value = c.getScanner().nextLong();
         }
-        scanner.nextLine(); // consume the newline character
+        c.getScanner().nextLine(); // consume the newline character
         return value;
     }
 
     private Furnish readFurnish() {
-        String input = scanner.nextLine().toUpperCase().trim();
+        String input = c.getScanner().nextLine().toUpperCase().trim();
         Furnish furnish = null;
         while (furnish == null) {
             try {
                 furnish = Enum.valueOf(Furnish.class, input);
             } catch (IllegalArgumentException e) {
                 System.out.print("Please enter a valid Furnish (DESIGNER, NONE, FINE, LITTLE): ");
-                input = scanner.nextLine().toUpperCase().trim();
+                input = c.getScanner().nextLine().toUpperCase().trim();
             }
         }
         return furnish;
     }
 
     private View readView() {
-        String input = scanner.nextLine().toUpperCase().trim();
+        String input = c.getScanner().nextLine().toUpperCase().trim();
         View view = null;
         while (view == null) {
             try {
                 view = Enum.valueOf(View.class, input);
             } catch (IllegalArgumentException e) {
                 System.out.print("Please enter a valid View (STREET, PARK, NORMAL, GOOD, TERRIBLE): ");
-                input = scanner.nextLine().toUpperCase().trim();
+                input = c.getScanner().nextLine().toUpperCase().trim();
             }
         }
         return view;
     }
 
     private Transport readTransport() {
-        String input = scanner.nextLine().toUpperCase().trim();
+        String input = c.getScanner().nextLine().toUpperCase().trim();
         Transport transport = null;
         while (transport == null) {
             try {
                 transport = Enum.valueOf(Transport.class, input);
             } catch (IllegalArgumentException e) {
                 System.out.print("Please enter a valid Transport (FEW, NONE, NORMAL): ");
-                input = scanner.nextLine().toUpperCase().trim();
+                input = c.getScanner().nextLine().toUpperCase().trim();
             }
         }
         return transport;
@@ -146,7 +147,7 @@ public class Add implements Command {
 
 
     private String readNullableString() {
-        String input = scanner.nextLine().trim();
+        String input = c.getScanner().nextLine().trim();
         if (input.isEmpty()) {
             return null;
         }
@@ -154,12 +155,12 @@ public class Add implements Command {
     }
 
     private int readPositiveInt() {
-        int value = scanner.nextInt();
+        int value = c.getScanner().nextInt();
         while (value <= 0) {
             System.out.print("Please enter a positive integer: ");
-            value = scanner.nextInt();
+            value = c.getScanner().nextInt();
         }
-        scanner.nextLine(); // consume the newline character
+        c.getScanner().nextLine(); // consume the newline character
         return value;
     }
 }

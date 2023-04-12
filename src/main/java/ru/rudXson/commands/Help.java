@@ -4,7 +4,8 @@ import java.util.HashMap;
 
 public class Help implements Command{
     HashMap<String, Command> commands;
-    public Help(HashMap<String, Command> commands){
+
+    public Help(HashMap<String, Command> commands) {
         this.commands = commands;
     }
 

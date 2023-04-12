@@ -1,15 +1,16 @@
 package ru.rudXson.commands;
 
+import ru.rudXson.base.CLIController;
 import ru.rudXson.datatype.Flat;
 
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
 public class Show implements Command {
-    private final PriorityQueue<Flat> flats;
+    CLIController c;
 
-    public Show(PriorityQueue<Flat> flats) {
-        this.flats = flats;
+    public Show(CLIController c) {
+        this.c = c;
     }
 
     @Override
@@ -19,6 +20,6 @@ public class Show implements Command {
 
     @Override
     public void execute(String[] args) {
-        System.out.println(flats);
+        System.out.println(c.getFlats());
     }
 }

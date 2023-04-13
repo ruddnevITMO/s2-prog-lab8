@@ -21,7 +21,12 @@ public class CommandExecutor {
         commands.put("add", new Add(c));
         commands.put("save", new Save(c));
         commands.put("update", new Update(c));
-
+        commands.put("print_descending", new SortDescending(c.getFlats()));
+        commands.put("info", new Info(c));
+        commands.put("clear", new Clear(c));
+        commands.put("print_unique_house", new PrintUniqueHouse(c));
+        commands.put("exit", new Exit());
+        commands.put("print_field_descending_transport",new PrintFieldDescendingTransport(c));
     }
 
     public void startInteractiveMode(){

@@ -16,6 +16,8 @@ public class Main {
      */
     public static void main(String[] args) throws IOException, NoPermission {
         CLIController controller = new CLIController(args);
+
+        // Execute the interactive command line mode using CommandExecutor
         CommandExecutor go = new CommandExecutor(controller);
         go.startInteractiveMode();
 

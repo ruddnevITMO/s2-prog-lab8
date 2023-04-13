@@ -5,6 +5,9 @@ import ru.rudXson.datatype.Flat;
 import ru.rudXson.exceptions.NoPermission;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.util.Scanner;
@@ -14,8 +17,9 @@ public class CLIController {
     private String fileName;
     private PriorityQueue<Flat> flats;
     private Scanner scanner;
-
+    private LocalDateTime creationDate;
     public CLIController(String[] args) throws IOException, NoPermission {
+        this.creationDate = LocalDateTime.now();
         this.scanner = new Scanner(System.in);
         // check if argument is provided
         if (args.length < 1) {
@@ -63,5 +67,8 @@ public class CLIController {
     public void setScanner(Scanner scanner) {
         this.scanner = scanner;
     }
-
+    public String getCreationDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        return creationDate.format(formatter);
+    }
 }

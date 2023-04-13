@@ -7,6 +7,7 @@ import ru.rudXson.exceptions.NoPermission;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.UUID;
 
 public class RemoveGreater implements Command {
     private final CLIController c;
@@ -21,7 +22,7 @@ public class RemoveGreater implements Command {
             System.out.println("There's no args");
             return;
         }
-        int id = Integer.parseInt(args[0]);
+        UUID id = UUID.fromString(args[1]);
         Flat mainFlat = c.getFlatByID(id);
         Iterator<Flat> iter = c.getFlats().iterator();
         while (iter.hasNext()) {

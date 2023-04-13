@@ -17,7 +17,7 @@ public class Info implements Command{
     @Override
     public void execute(String[] args) {
         PriorityQueue<Flat> flats = controller.getFlats();
-        String creationDate = controller.getCreationDate();
+        String creationDate = flats.peek().getCreationDate().toString();;
 
 
         String result = "";

@@ -16,7 +16,6 @@ public class CLIController {
     private final Scanner scanner;
     private LocalDateTime creationDate;
     public CLIController(String[] args) throws IOException, NoPermission {
-        this.creationDate = LocalDateTime.now();
         this.scanner = new Scanner(System.in);
 
         // check if argument is provided

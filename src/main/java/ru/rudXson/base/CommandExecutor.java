@@ -1,13 +1,8 @@
 package ru.rudXson.base;
 
 import ru.rudXson.commands.*;
-import ru.rudXson.datatype.Flat;
-import ru.rudXson.exceptions.NotEnoughArgsException;
-import ru.rudXson.exceptions.WrongArgsException;
 
 import java.util.HashMap;
-import java.util.PriorityQueue;
-import java.util.Scanner;
 
 public class CommandExecutor {
     HashMap<String, Command> commands = new HashMap<>();
@@ -21,6 +16,10 @@ public class CommandExecutor {
         commands.put("add", new Add(c));
         commands.put("save", new Save(c));
         commands.put("update", new Update(c));
+        commands.put("execute_script", new ExecuteScript(this));
+        commands.put("remove_by_id", new RemoveByID(c));
+        commands.put("remove_first", new RemoveFirst(c));
+        commands.put("add_if_min", new AddIfMin(c));
         commands.put("print_descending", new SortDescending(c.getFlats()));
         commands.put("info", new Info(c));
         commands.put("clear", new Clear(c));
@@ -48,5 +47,9 @@ public class CommandExecutor {
                 System.out.println("An error occurred: " + e.getMessage());
             }
         }
+    }
+    public Command getCommand(String commandName) {
+        if(!commands.containsKey(commandName)) return null; // check if command exist
+        return commands.get(commandName);
     }
 }

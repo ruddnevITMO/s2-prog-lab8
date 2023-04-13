@@ -1,27 +1,27 @@
 package ru.rudXson.base;
 
-import ru.rudXson.commands.Command;
 import ru.rudXson.datatype.Flat;
 import ru.rudXson.exceptions.NoPermission;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 public class CLIController {
 
     private String fileName;
     private PriorityQueue<Flat> flats;
-    private Scanner scanner;
+    private final Scanner scanner;
+
+
 
     public CLIController(String[] args) throws IOException, NoPermission {
         this.scanner = new Scanner(System.in);
+
         // check if argument is provided
         if (args.length < 1) {
             System.out.println("No file name provided.");
             System.out.print("Please enter file name: ");
-            this.fileName = scanner.nextLine();
+            this.fileName = this.scanner.nextLine();
         } else {
             this.fileName = args[0];
         }
@@ -52,16 +52,22 @@ public class CLIController {
         return flats;
     }
 
+    public Flat getFlatByID(UUID id){
+        for (Flat flat : flats) {
+            if (Objects.equals(id.toString(), flat.getId().toString())) {
+                return flat;
+            }
+        }
+        return null;
+    }
+
     public void setFlats(PriorityQueue<Flat> flats) {
         this.flats = flats;
     }
 
     public Scanner getScanner() {
-        return scanner;
+        return this.scanner;
     }
 
-    public void setScanner(Scanner scanner) {
-        this.scanner = scanner;
-    }
 
 }

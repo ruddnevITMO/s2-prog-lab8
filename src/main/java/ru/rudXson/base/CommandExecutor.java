@@ -20,6 +20,7 @@ public class CommandExecutor {
         commands.put("show", new Show(c));
         commands.put("add", new Add(c));
         commands.put("save", new Save(c));
+        commands.put("update", new Update(c));
 
     }
 

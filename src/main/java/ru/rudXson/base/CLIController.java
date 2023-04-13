@@ -7,9 +7,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 public class CLIController {
 
@@ -56,7 +54,7 @@ public class CLIController {
         return flats;
     }
 
-    public Flat getFlatByID(UUID id){
+    public Flat getFlatByID(UUID id) {
         for (Flat flat : flats) {
             if (Objects.equals(id.toString(), flat.getId().toString())) {
                 return flat;
@@ -65,17 +63,10 @@ public class CLIController {
         return null;
     }
 
-    public void setFlats(PriorityQueue<Flat> flats) {
-        this.flats = flats;
-    }
-
     public Scanner getScanner() {
         return this.scanner;
     }
 
-    public void setScanner(Scanner scanner) {
-        this.scanner = scanner;
-    }
     public String getCreationDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         return creationDate.format(formatter);

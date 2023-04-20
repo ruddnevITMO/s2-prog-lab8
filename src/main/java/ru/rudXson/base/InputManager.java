@@ -2,6 +2,7 @@ package ru.rudXson.base;
 
 import ru.rudXson.datatype.*;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InputManager {
@@ -62,30 +63,60 @@ public class InputManager {
     }
 
     private int readCoordinate() {
-        int coordinate = this.scanner.nextInt();
-        while (coordinate > 314) {
-            System.out.print("Coordinate can't be greater than 314. Please enter again: ");
-            coordinate = this.scanner.nextInt();
+        int coordinate = 0;
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                coordinate = this.scanner.nextInt();
+                if (coordinate > 314) {
+                    System.out.print("Coordinate can't be greater than 314. Please enter again: ");
+                } else {
+                    validInput = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.print("Please enter a valid integer: ");
+                this.scanner.nextLine();
+            }
         }
         this.scanner.nextLine(); // consume the newline character
         return coordinate;
     }
 
     private float readPositiveFloat() {
-        float value = this.scanner.nextFloat();
-        while (value <= 0) {
-            System.out.print("Please enter a positive float: ");
-            value = this.scanner.nextFloat();
+        float value = 0;
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                value = this.scanner.nextFloat();
+                if (value <= 0) {
+                    System.out.print("Please enter a positive float: ");
+                } else {
+                    validInput = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.print("Please enter a valid float: ");
+                this.scanner.nextLine();
+            }
         }
         this.scanner.nextLine(); // consume the newline character
         return value;
     }
 
     private long readPositiveLong() {
-        long value = this.scanner.nextLong();
-        while (value <= 0) {
-            System.out.print("Please enter a positive long: ");
-            value = this.scanner.nextLong();
+        long value = 0;
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                value = this.scanner.nextLong();
+                if (value <= 0) {
+                    System.out.print("Please enter a positive long: ");
+                } else {
+                    validInput = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.print("Please enter a valid long: ");
+                this.scanner.nextLine();
+            }
         }
         this.scanner.nextLine(); // consume the newline character
         return value;
@@ -94,9 +125,11 @@ public class InputManager {
     private Furnish readFurnish() {
         String input = this.scanner.nextLine().toUpperCase().trim();
         Furnish furnish = null;
-        while (furnish == null) {
+        boolean validInput = false;
+        while (!validInput) {
             try {
                 furnish = Enum.valueOf(Furnish.class, input);
+                validInput = true;
             } catch (IllegalArgumentException e) {
                 System.out.print("Please enter a valid Furnish (DESIGNER, NONE, FINE, LITTLE): ");
                 input = this.scanner.nextLine().toUpperCase().trim();
@@ -108,9 +141,11 @@ public class InputManager {
     private View readView() {
         String input = this.scanner.nextLine().toUpperCase().trim();
         View view = null;
-        while (view == null) {
+        boolean validInput = false;
+        while (!validInput) {
             try {
                 view = Enum.valueOf(View.class, input);
+                validInput = true;
             } catch (IllegalArgumentException e) {
                 System.out.print("Please enter a valid View (STREET, PARK, NORMAL, GOOD, TERRIBLE): ");
                 input = this.scanner.nextLine().toUpperCase().trim();
@@ -119,12 +154,15 @@ public class InputManager {
         return view;
     }
 
+
     private Transport readTransport() {
         String input = this.scanner.nextLine().toUpperCase().trim();
         Transport transport = null;
-        while (transport == null) {
+        boolean validInput = false;
+        while (!validInput) {
             try {
                 transport = Enum.valueOf(Transport.class, input);
+                validInput = true;
             } catch (IllegalArgumentException e) {
                 System.out.print("Please enter a valid Transport (FEW, NONE, NORMAL): ");
                 input = this.scanner.nextLine().toUpperCase().trim();
@@ -142,11 +180,22 @@ public class InputManager {
         return input;
     }
 
+
     private int readPositiveInt() {
-        int value = this.scanner.nextInt();
-        while (value <= 0) {
-            System.out.print("Please enter a positive integer: ");
-            value = this.scanner.nextInt();
+        int value = 0;
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                value = this.scanner.nextInt();
+                if (value <= 0) {
+                    System.out.print("You have to enter a positive integer. Please enter again: ");
+                } else {
+                    validInput = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.print("Please enter a valid positive integer: ");
+                this.scanner.nextLine();
+            }
         }
         this.scanner.nextLine(); // consume the newline character
         return value;

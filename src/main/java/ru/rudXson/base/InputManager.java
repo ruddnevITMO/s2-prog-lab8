@@ -11,7 +11,7 @@ public class InputManager {
         this.scanner = scanner;
     }
     
-    public Flat describeFlat(Flat flat) {
+    public void describeFlat(Flat flat) {
         System.out.println("Please enter the following information:");
         System.out.print("Name: ");
         flat.setName(readNonEmptyString());
@@ -50,7 +50,6 @@ public class InputManager {
 
         flat.setHouse(new House(houseName, year, numberOfLifts));
 
-        return flat;
     }
 
     private String readNonEmptyString() {

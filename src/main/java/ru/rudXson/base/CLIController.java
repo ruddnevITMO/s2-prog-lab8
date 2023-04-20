@@ -15,6 +15,7 @@ public class CLIController {
     private PriorityQueue<Flat> flats;
     private final Scanner scanner;
     private LocalDateTime creationDate;
+
     public CLIController(String[] args) throws IOException, NoPermission {
         this.scanner = new Scanner(System.in);
 
@@ -28,11 +29,24 @@ public class CLIController {
         }
 
         // Check if file exists and has write access
-        FileValidator.checkFile(this.fileName);
+        try {
+            FileValidator.checkFile(this.fileName);
+        } catch (Exception e) {
+            System.out.println("Error: You don't have permission to access the file or it doesn't exist.");
+            System.out.print("Please enter another file name: ");
+            this.fileName = this.scanner.nextLine();
+            FileValidator.checkFile(this.fileName);
+        }
 
         // Deserialize the file and store the data in a priority queue
-        this.flats = Deserializer.deserialize(this.fileName);
-        //TODO Error on this (ask for another file)
+        try {
+            this.flats = Deserializer.deserialize(this.fileName);
+        } catch (IOException e) {
+            System.out.println("Error: Unable to read the file.");
+            System.out.print("Please enter another file name: ");
+            this.fileName = this.scanner.nextLine();
+            this.flats = Deserializer.deserialize(this.fileName);
+        }
     }
 
     public void addFlat(Flat flat) {
@@ -62,6 +76,10 @@ public class CLIController {
         return null;
     }
 
+    public void removeFlatByID(UUID id) {
+        flats.remove(getFlatByID(id));
+    }
+
     public Scanner getScanner() {
         return this.scanner;
     }
@@ -70,4 +88,5 @@ public class CLIController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         return creationDate.format(formatter);
     }
+
 }

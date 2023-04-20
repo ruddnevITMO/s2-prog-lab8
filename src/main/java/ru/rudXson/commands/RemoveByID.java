@@ -18,6 +18,6 @@ public class RemoveByID implements Command {
 
     @Override
     public void execute(String[] args) {
-        c.getFlats().remove(c.getFlatByID(UUID.fromString(args[1])));
+        c.removeFlatByID(UUID.fromString(args[1])); // TODO: exceptions
     }
 }

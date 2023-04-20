@@ -20,7 +20,7 @@ public class CommandExecutor {
         commands.put("remove_by_id", new RemoveByID(c));
         commands.put("remove_first", new RemoveFirst(c));
         commands.put("add_if_min", new AddIfMin(c));
-        commands.put("print_descending", new SortDescending(c.getFlats()));
+        commands.put("print_descending", new PrintDescending(c));
         commands.put("info", new Info(c));
         commands.put("clear", new Clear(c));
         commands.put("print_unique_house", new PrintUniqueHouse(c));

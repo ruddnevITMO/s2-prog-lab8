@@ -17,6 +17,10 @@ public class Deserializer {
         try (FileReader reader = new FileReader(fileName)) {
             List<Flat> flats = gson.fromJson(reader, new TypeToken<List<Flat>>(){}.getType());
 
+            if (flats == null) {
+                return queue;
+            }
+
             for (Flat flat : flats) {
                 queue.offer(flat);
             }

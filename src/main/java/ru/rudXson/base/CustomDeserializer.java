@@ -27,11 +27,13 @@ public class CustomDeserializer<T> implements JsonDeserializer<List<T>> {
                     ignoredElements += 1;
                 }
             }
-            System.out.print("Ignored " + ignoredElements + " element");
-            if (ignoredElements == 0) {
-                System.out.print("s");
+            if (ignoredElements != 0) {
+                System.out.print("Ignored " + ignoredElements + " element");
+                if (ignoredElements == 1) {
+                    System.out.print("s");
+                }
+                System.out.println(" from the collection. Beware!");
             }
-            System.out.println(" from the collection. Beware!");
         }
         return list;
     }

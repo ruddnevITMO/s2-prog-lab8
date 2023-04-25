@@ -12,7 +12,7 @@ public class RemoveFirst implements Command {
 
     @Override
     public String getDescription() {
-        return "Remove first element of sorted array";
+        return "Removes first element of sorted array";
     }
 
     @Override

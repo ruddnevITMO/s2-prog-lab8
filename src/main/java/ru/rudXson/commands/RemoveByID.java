@@ -13,7 +13,7 @@ public class RemoveByID implements Command {
 
     @Override
     public String getDescription() {
-        return "Remove element with ID specified";
+        return "Removes element with ID specified";
     }
 
     @Override

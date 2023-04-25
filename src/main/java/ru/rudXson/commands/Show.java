@@ -11,7 +11,7 @@ public class Show implements Command {
 
     @Override
     public String getDescription() {
-        return "Show all collection items";
+        return "Shows all collection items";
     }
 
     @Override

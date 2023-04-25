@@ -37,6 +37,6 @@ public class Update implements Command {
 
     @Override
     public String getDescription() {
-        return "Update element with ID specified";
+        return "Updates element with ID specified";
     }
 }

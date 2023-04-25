@@ -21,16 +21,16 @@ public class Info implements Command{
 
 
         String result = "";
-        result += "Information about collection:\n";
+        result += "\tInformation about collection:\n";
         result += "Created at " + creationDate + '\n';
         result += "Collection type is " + flats.getClass().getName() + '\n';
-        result += "Amount of items stored in - " + flats.size() + '\n';
+        result += "Amount of items stored in - " + flats.size();
 
         System.out.println(result);
     }
     @Override
     public String getDescription(){
-        return "shows info about collection";
+        return "Shows info about collection";
     }
 }
 

@@ -11,8 +11,10 @@ public class Help implements Command{
 
     @Override
     public void execute(String[] args) {
+        System.out.printf("%-35s   %-90s %n", "COMMAND", "DESCRIPTION");
+        System.out.printf("--------------------------------------------------------------------------%n");
         for (String command:commands.keySet()){
-            System.out.println(command + " - " + commands.get(command).getDescription());
+            System.out.printf("%-35s   %-90s %n", command, commands.get(command).getDescription());
         }
     }
     @Override

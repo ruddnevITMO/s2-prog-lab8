@@ -17,7 +17,7 @@ public class AddIfMin implements Command {
 
     @Override
     public String getDescription() {
-        return "Add element if it is smaller than the smallest element of sorted array";
+        return "Adds element if it is smaller than the smallest element of sorted array";
     }
 
     @Override

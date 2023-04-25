@@ -3,11 +3,13 @@
  */
 package ru.rudXson.commands;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
 import ru.rudXson.base.CLIController;
+import ru.rudXson.base.FileValidator;
 import ru.rudXson.base.Serializer;
 import ru.rudXson.datatype.Flat;
 import ru.rudXson.exceptions.NoPermission;
@@ -35,7 +37,9 @@ public class Save implements Command {
     public void execute(String[] args) {
         while (true) {
             try {
+                FileValidator.checkFile(c.getFileName());
                 Serializer.serialize(c.getFlats(), c.getFileName());
+                System.out.println("Successfully saved collection to a file!");
                 break;
             } catch (NoPermission | IOException e) {
                 System.out.println("Error writing to file: " + e.getMessage());

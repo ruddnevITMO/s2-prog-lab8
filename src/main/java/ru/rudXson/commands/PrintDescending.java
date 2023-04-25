@@ -30,6 +30,6 @@ public class PrintDescending implements Command{
 
     @Override
     public String getDescription(){
-        return "sort the elements in descending order";
+        return "Sorts the elements in descending order";
     }
 }

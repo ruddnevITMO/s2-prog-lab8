@@ -31,6 +31,6 @@ public class PrintUniqueHouse implements Command {
 
     @Override
     public String getDescription() {
-        return "prints unique values of the house field for all elements in the collection.";
+        return "Prints unique values of the house field for all elements in the collection.";
     }
 }

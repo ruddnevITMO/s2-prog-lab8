@@ -31,7 +31,7 @@ public class CommandExecutor {
     public void startInteractiveMode(){
         System.out.println("Entered the interactive mode!");
         while (true) {
-            System.out.print("Enter command: ");
+            System.out.print("\u001B[36mEnter command: \u001B[0m");
             String [] line = c.getScanner().nextLine().toLowerCase().strip().split(" ");
             if (!commands.containsKey(line[0])){
                 System.out.println("This command doesn't exist");

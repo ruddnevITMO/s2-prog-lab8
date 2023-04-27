@@ -13,7 +13,7 @@ public class Main {
      * @param args Command line arguments that specify the name of the input file.
      * @throws IOException If there is an error reading or writing to the file.
      */
-    public static void main(String[] args) throws IOException, NoPermission {
+    public static void main(String[] args) throws IOException, NoPermissionException {
         CLIController controller = new CLIController(args);
         // Execute the interactive command line mode using CommandExecutor
         CommandExecutor go = new CommandExecutor(controller);

@@ -17,8 +17,8 @@ public class Serializer {
         Path path = Paths.get(fileName);
         if (!path.isAbsolute()) path = path.toAbsolutePath();
         if (!Files.isRegularFile(path)) throw new IOException("Not a file!");
-        if (!Files.isWritable(path)) throw new NoPermission("File isn't writable!");
-        if (!Files.isReadable(path)) throw new NoPermission("File isn't readable!");
+        if (!Files.isWritable(path)) throw new NoPermissionException("File isn't writable!");
+        if (!Files.isReadable(path)) throw new NoPermissionException("File isn't readable!");
         Gson gson = new Gson();
         try(BufferedWriter buf = new BufferedWriter(new FileWriter(fileName))){
             gson.toJson(flats, buf);

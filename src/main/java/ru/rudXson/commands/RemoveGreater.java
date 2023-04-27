@@ -4,8 +4,10 @@ package ru.rudXson.commands;
 import ru.rudXson.base.CLIController;
 import ru.rudXson.datatype.Flat;
 
+import javax.naming.NoPermissionException;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.UUID;
 
 public class RemoveGreater implements Command {
@@ -16,7 +18,7 @@ public class RemoveGreater implements Command {
     }
 
     @Override
-    public void execute(String[] args) throws NoPermission, IOException {
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) throws NoPermissionException, IOException {
         if (args.length != 1) {
             System.out.println("There's no args");
             return;

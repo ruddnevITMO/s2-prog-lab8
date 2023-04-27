@@ -10,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class ExecuteScript implements Command {
     CommandExecutor commandExecutor;
@@ -21,10 +23,9 @@ public class ExecuteScript implements Command {
     }
 
     @Override
-    public void execute(String[] args) throws WrongArgsException, NotEnoughArgsException, IOException {
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) throws WrongArgsException, NotEnoughArgsException, IOException {
         if (args.length < 2) throw new NotEnoughArgsException("Command requires \"path\" argument");
-        Path path;
-        path = Paths.get(args[1]);
+        Path path = Paths.get(args[1]);
         recursionHistory.add(args[1].hashCode());
         String scriptFileName = args[1];
 
@@ -41,10 +42,9 @@ public class ExecuteScript implements Command {
             return;
         }
 
-        try (BufferedInputStream inputStream = new BufferedInputStream(Files.newInputStream(path));) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try (Scanner scanner = new Scanner(new File(path.toUri()))) {
             System.out.println("Running " + path);
-            runThrough(reader);
+            runThrough(scanner);
             recursionHistory.clear();
 
         } catch (IOException e) {
@@ -52,42 +52,46 @@ public class ExecuteScript implements Command {
         }
     }
 
-    private void runThrough(BufferedReader reader) throws IOException {
-        while (true) {
-            String currLine = reader.readLine();
+    private void runThrough(Scanner scanner) throws IOException {
+        while (scanner.hasNextLine()) {
+            String currLine = scanner.nextLine();
             if (currLine == null) return;
-            String[] args = currLine.trim().split(" ");
+            String[] args = currLine.trim().toLowerCase().split(" ");
             Command command = commandExecutor.getCommand(args[0]);
-            if (command == null){
+
+
+
+            if (command == null) {
                 System.out.println(args[0] + " is not a command. Try again.");
                 continue;
             }
+
             try {
-                runCommand(command, args);
-            }
-            catch (WrongArgsException e) {
+                if (command.getClass() == ExecuteScript.class) {
+                    if (ExecuteScript.recursionHistory.contains(args[1].hashCode())) {
+                        System.out.println("Recursion! Command skipped!");
+                        System.out.println(ExecuteScript.recursionHistory);
+                        return;
+                    }
+                    ExecuteScript.recursionHistory.add(args[0].hashCode());
+                }
+                command.execute(args, true, scanner);
+
+            } catch (WrongArgsException e) {
                 System.out.println("Error while running " + args[0] + " command.");
                 System.out.println("Wrong argument! " + e.getMessage() + " Command skipped");
             } catch (NotEnoughArgsException e) {
                 System.out.println("Error while running " + args[0] + " command.");
                 System.out.println("Not enough arguments. " + e.getMessage() + " Command skipped");
-            } catch (NoPermission e) {
+            } catch (NoPermissionException e) {
                 throw new RuntimeException(e);
             }
+
+
         }
+
     }
 
-    private void runCommand(Command command, String[] args) throws NoPermission, NotEnoughArgsException, WrongArgsException, IOException {
-        if (command.getClass() == ExecuteScript.class) {
-            if (ExecuteScript.recursionHistory.contains(args[1].hashCode())) {
-                System.out.println("Recursion! Command skipped!");
-                System.out.println(ExecuteScript.recursionHistory);
-                return;
-            }
-            ExecuteScript.recursionHistory.add(args[0].hashCode());
-        }
-        command.execute(args);
-    }
 
     @Override
     public String getDescription() {

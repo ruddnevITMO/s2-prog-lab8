@@ -3,9 +3,7 @@
  */
 package ru.rudXson.commands;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.PriorityQueue;
 import java.util.Scanner;
 
 import ru.rudXson.base.CLIController;
@@ -41,7 +39,7 @@ public class Save implements Command {
                 Serializer.serialize(c.getFlats(), c.getFileName());
                 System.out.println("Successfully saved collection to a file!");
                 break;
-            } catch (NoPermission | IOException e) {
+            } catch (NoPermissionException | IOException e) {
                 System.out.println("Error writing to file: " + e.getMessage());
                 System.out.print("Enter a new file name: ");
                 c.setFileName(c.getScanner().nextLine());

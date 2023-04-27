@@ -17,6 +17,11 @@ public class Flat implements Comparable<Flat> {
     private Transport transport; // Поле не может быть null
     private House house; // Поле может быть null
 
+    public Flat(){
+        setId();
+        setCreationDate();
+    }
+
     public Flat(String name, Coordinates coordinates, float area, long numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
         setId();
         setName(name);

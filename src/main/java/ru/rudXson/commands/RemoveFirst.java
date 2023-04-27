@@ -4,20 +4,21 @@ import ru.rudXson.base.CLIController;
 
 import java.util.Scanner;
 
-public class Show implements Command {
+
+public class RemoveFirst implements Command {
     CLIController c;
 
-    public Show(CLIController c) {
+    public RemoveFirst(CLIController c) {
         this.c = c;
     }
 
     @Override
     public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
-        System.out.println(c.getFlats());
+        c.getFlats().poll();
     }
 
     @Override
     public String getDescription() {
-        return "Shows all collection items";
+        return "Removes first element of sorted array";
     }
 }

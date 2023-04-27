@@ -4,6 +4,7 @@ import ru.rudXson.base.CLIController;
 import ru.rudXson.datatype.Flat;
 
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class Clear implements Command {
 
@@ -16,7 +17,7 @@ public class Clear implements Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
         if (collection.isEmpty()) {
             System.out.println("The collection is already empty.");
             return;
@@ -27,7 +28,7 @@ public class Clear implements Command {
 
     @Override
     public String getDescription() {
-        return "clear the collection";
+        return "Clears the collection";
     }
 }
 

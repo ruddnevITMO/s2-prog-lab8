@@ -3,10 +3,12 @@ package ru.rudXson.commands;
 
 import ru.rudXson.base.CLIController;
 import ru.rudXson.datatype.Flat;
-import ru.rudXson.exceptions.NoPermission;
 
+import javax.naming.NoPermissionException;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Scanner;
+import java.util.UUID;
 
 public class RemoveGreater implements Command {
     private final CLIController c;
@@ -16,12 +18,12 @@ public class RemoveGreater implements Command {
     }
 
     @Override
-    public void execute(String[] args) throws NoPermission, IOException {
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) throws NoPermissionException, IOException {
         if (args.length != 1) {
             System.out.println("There's no args");
             return;
         }
-        int id = Integer.parseInt(args[0]);
+        UUID id = UUID.fromString(args[1]);
         Flat mainFlat = c.getFlatByID(id);
         Iterator<Flat> iter = c.getFlats().iterator();
         while (iter.hasNext()) {

@@ -1,74 +1,152 @@
 package ru.rudXson.base;
 
-import ru.rudXson.commands.Command;
+import com.google.gson.JsonSyntaxException;
 import ru.rudXson.datatype.Flat;
-import ru.rudXson.exceptions.NoPermission;
 
+import javax.naming.NoPermissionException;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
+/**
+ * The CLIController class represents a controller for a command-line interface that manages a collection of flats.
+ * It stores the name of the file containing the flats, a priority queue of flats, a scanner for user input, and the creation date of the flats.
+ */
 public class CLIController {
 
     private String fileName;
     private PriorityQueue<Flat> flats;
-    private Scanner scanner;
+    private final Scanner scanner;
     private LocalDateTime creationDate;
-    public CLIController(String[] args) throws IOException, NoPermission {
-        this.creationDate = LocalDateTime.now();
+
+
+    /**
+     * Constructs a CLIController object with the given command-line arguments.
+     *
+     * @param args the command-line arguments
+     * @throws IOException if there was an error reading the file
+     * @throws NoPermissionException if the user does not have permission to access the file
+     */
+    public CLIController(String[] args) throws IOException, NoPermissionException {
         this.scanner = new Scanner(System.in);
-        // check if argument is provided
+
+        // Check if argument is provided
         if (args.length < 1) {
             System.out.println("No file name provided.");
             System.out.print("Please enter file name: ");
-            this.fileName = scanner.nextLine();
+            this.fileName = this.scanner.nextLine();
         } else {
             this.fileName = args[0];
         }
 
         // Check if file exists and has write access
-        FileValidator.checkFile(this.fileName);
+        try {
+            FileValidator.checkFile(this.fileName);
+        } catch (Exception e) {
+            System.out.println("Error: You don't have permission to access the file or it doesn't exist.");
+            System.out.print("Please enter another file name: ");
+            this.fileName = this.scanner.nextLine();
+            FileValidator.checkFile(this.fileName);
+        }
 
         // Deserialize the file and store the data in a priority queue
-        this.flats = Deserializer.deserialize(this.fileName);
-        //TODO Error on this (ask for another file)
+        try {
+            this.flats = Deserializer.deserialize(this.fileName);
+        } catch (IOException e) {
+            System.out.println("Error: Unable to read the file.");
+            System.out.print("Please enter another file name: ");
+            this.fileName = this.scanner.nextLine();
+            this.flats = Deserializer.deserialize(this.fileName);
+        } catch (JsonSyntaxException e) {
+            System.out.println("Error: Malformed JSON file.");
+            System.out.print("Please enter another file name: ");
+            this.fileName = this.scanner.nextLine();
+            this.flats = Deserializer.deserialize(this.fileName);
+        }
     }
 
+    /**
+     * Adds a flat to the priority queue of flats.
+     *
+     * @param flat the flat to add
+     */
     public void addFlat(Flat flat) {
         flats.add(flat);
     }
 
 
-    // getters and setters
+    /**
+     * Returns the name of the file containing the flats.
+     *
+     * @return the name of the file
+     */
     public String getFileName() {
         return fileName;
     }
 
+    /**
+     * Sets the name of the file containing the flats.
+     *
+     * @param fileName the name of the file
+     */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
+    /**
+     * Returns the priority queue of flats.
+     *
+     * @return the priority queue of flats
+     */
     public PriorityQueue<Flat> getFlats() {
         return flats;
     }
 
-    public void setFlats(PriorityQueue<Flat> flats) {
-        this.flats = flats;
+    /**
+     * Returns the flat with the given ID, or null if there is no such flat.
+     *
+     * @param id the ID of the flat to find
+     * @return the flat with the given ID, or null if there is no such flat
+     */
+    public Flat getFlatByID(UUID id) {
+        for (Flat flat : flats) {
+            if (Objects.equals(id.toString(), flat.getId().toString())) {
+                return flat;
+            }
+        }
+        return null;
     }
 
+    /**
+     * Removes the flat with the given ID from the priority queue of flats.
+     *
+     * @param id the ID of the flat to remove
+     */
+    public void removeFlatByID(UUID id) {
+        flats.remove(getFlatByID(id));
+    }
+
+    /**
+     * Returns the scanner used for user input.
+     *
+     * @return the scanner used for user input
+     */
     public Scanner getScanner() {
-        return scanner;
+        return this.scanner;
     }
 
-    public void setScanner(Scanner scanner) {
-        this.scanner = scanner;
-    }
+    /**
+     * Returns the creation date of the flats in the format "dd.MM.yyyy HH:mm:ss".
+     *
+     * @return the creation date of the flats
+     */
     public String getCreationDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         return creationDate.format(formatter);
     }
+
 }
+
+
+

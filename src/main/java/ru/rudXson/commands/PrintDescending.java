@@ -2,27 +2,27 @@ package ru.rudXson.commands;
 
 import ru.rudXson.base.CLIController;
 import ru.rudXson.datatype.Flat;
-import ru.rudXson.exceptions.NoPermission;
 
-import java.io.IOException;
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
-public class SortDescending implements Command{
-    private PriorityQueue<Flat> flats;
+public class PrintDescending implements Command{
 
-    public SortDescending(PriorityQueue<Flat> flats) {
-        this.flats = flats;
+    private CLIController c;
+
+    public PrintDescending(CLIController c) {
+        this.c = c;
     }
 
     @Override
-    public void execute(String[] args) {
-        if (flats.isEmpty()) {
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
+        if (c.getFlats().isEmpty()) {
             System.out.println("Collection is empty.");
             return;
         }
         PriorityQueue<Flat> sortedFlats = new PriorityQueue<>(Comparator.reverseOrder());
-        sortedFlats.addAll(flats);
+        sortedFlats.addAll(c.getFlats());
         System.out.println("Elements of collection in descending order:");
         for (Flat flat : sortedFlats) {
             System.out.println(flat.toString());
@@ -31,6 +31,6 @@ public class SortDescending implements Command{
 
     @Override
     public String getDescription(){
-        return "sort the elements in descending order";
+        return "Sorts the elements in descending order";
     }
 }

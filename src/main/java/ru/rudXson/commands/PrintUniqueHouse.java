@@ -2,11 +2,12 @@ package ru.rudXson.commands;
 
 import ru.rudXson.base.CLIController;
 import ru.rudXson.datatype.Flat;
-import ru.rudXson.exceptions.NoPermission;
 
+import javax.naming.NoPermissionException;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class PrintUniqueHouse implements Command {
     private final CLIController c;
@@ -14,7 +15,7 @@ public class PrintUniqueHouse implements Command {
         this.c = c;
     }
     @Override
-    public void execute(String[] args) throws NoPermission, IOException {
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) throws NoPermissionException, IOException {
         PriorityQueue<Flat> flats = c.getFlats();
 
         HashSet<String> uniqueHouses = new HashSet<>();
@@ -31,6 +32,6 @@ public class PrintUniqueHouse implements Command {
 
     @Override
     public String getDescription() {
-        return "prints unique values of the house field for all elements in the collection.";
+        return "Prints unique values of the house field for all elements in the collection.";
     }
 }

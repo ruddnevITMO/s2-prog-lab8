@@ -2,12 +2,11 @@ package ru.rudXson.commands;
 
 import ru.rudXson.base.CLIController;
 import ru.rudXson.datatype.Flat;
-import ru.rudXson.datatype.Transport;
-import ru.rudXson.exceptions.NoPermission;
 
+import javax.naming.NoPermissionException;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class PrintFieldDescendingTransport implements Command {
     private final CLIController c;
@@ -15,7 +14,7 @@ public class PrintFieldDescendingTransport implements Command {
         this.c = c;
     }
     @Override
-    public void execute(String[] args) throws NoPermission, IOException {
+    public void execute(String[] args, boolean fromExecute, Scanner scanner) throws NoPermissionException, IOException {
         PriorityQueue<Flat> flats = c.getFlats();
 
         PriorityQueue<Flat> transportPriorityQueue = new PriorityQueue<Flat>((f1, f2) -> f2.getTransport().compareTo(f1.getTransport()));

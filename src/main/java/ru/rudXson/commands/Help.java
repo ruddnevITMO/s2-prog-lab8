@@ -1,6 +1,7 @@
 package ru.rudXson.commands;
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Help implements Command{
     HashMap<String, Command> commands;
@@ -10,9 +11,11 @@ public class Help implements Command{
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
+        System.out.printf("%-35s   %-90s %n", "COMMAND", "DESCRIPTION");
+        System.out.printf("--------------------------------------------------------------------------%n");
         for (String command:commands.keySet()){
-            System.out.println(command + " - " + commands.get(command).getDescription());
+            System.out.printf("%-35s   %-90s %n", command, commands.get(command).getDescription());
         }
     }
     @Override

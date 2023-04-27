@@ -1,20 +1,26 @@
 package ru.rudXson.base;
 
 import java.io.*;
+import java.util.List;
 import java.util.PriorityQueue;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import ru.rudXson.datatype.Flat;
 
 public class Deserializer {
 
     public static PriorityQueue<Flat> deserialize(String fileName) throws IOException {
-//        Gson gson = new GsonBuilder().registerTypeAdapter(MyEnum[].class, new MyEnumArrayDeserializer().create();
-        Gson gson = new Gson();
         PriorityQueue<Flat> queue = new PriorityQueue<>();
+        Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<List<Flat>>(){}.getType(), new CustomDeserializer<>(Flat.class)).create();
 
         try (FileReader reader = new FileReader(fileName)) {
-            Flat[] flats = gson.fromJson(reader, Flat[].class);
+            List<Flat> flats = gson.fromJson(reader, new TypeToken<List<Flat>>(){}.getType());
+
+            if (flats == null) {
+                return queue;
+            }
+
             for (Flat flat : flats) {
                 queue.offer(flat);
             }

@@ -4,13 +4,13 @@
 package ru.rudXson.commands;
 
 import java.io.IOException;
-import java.util.PriorityQueue;
 import java.util.Scanner;
 
 import ru.rudXson.base.CLIController;
+import ru.rudXson.base.FileValidator;
 import ru.rudXson.base.Serializer;
-import ru.rudXson.datatype.Flat;
-import ru.rudXson.exceptions.NoPermission;
+
+import javax.naming.NoPermissionException;
 
 public class Save implements Command {
 
@@ -32,12 +32,14 @@ public class Save implements Command {
      * @param args the arguments to execute the command with
      */
     @Override
-    public void execute(String[] args) {
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
         while (true) {
             try {
+                FileValidator.checkFile(c.getFileName());
                 Serializer.serialize(c.getFlats(), c.getFileName());
+                System.out.println("Successfully saved collection to a file!");
                 break;
-            } catch (NoPermission | IOException e) {
+            } catch (NoPermissionException | IOException e) {
                 System.out.println("Error writing to file: " + e.getMessage());
                 System.out.print("Enter a new file name: ");
                 c.setFileName(c.getScanner().nextLine());

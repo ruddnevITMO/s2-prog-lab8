@@ -6,6 +6,7 @@ import ru.rudXson.datatype.Flat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class Info implements Command{
     private CLIController controller;
@@ -15,7 +16,7 @@ public class Info implements Command{
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
         PriorityQueue<Flat> flats = controller.getFlats();
         String creationDate = flats.peek().getCreationDate().toString();;
 

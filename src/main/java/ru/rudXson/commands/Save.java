@@ -34,7 +34,7 @@ public class Save implements Command {
      * @param args the arguments to execute the command with
      */
     @Override
-    public void execute(String[] args) {
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
         while (true) {
             try {
                 FileValidator.checkFile(c.getFileName());

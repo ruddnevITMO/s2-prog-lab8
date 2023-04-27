@@ -13,7 +13,7 @@ import java.util.PriorityQueue;
 
 
 public class Serializer {
-    public static void serialize(PriorityQueue<Flat> flats, String fileName) throws IOException, NoPermission{
+    public static void serialize(PriorityQueue<Flat> flats, String fileName) throws IOException, NoPermissionException {
         Path path = Paths.get(fileName);
         if (!path.isAbsolute()) path = path.toAbsolutePath();
         if (!Files.isRegularFile(path)) throw new IOException("Not a file!");

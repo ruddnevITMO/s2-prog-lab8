@@ -5,6 +5,7 @@ import ru.rudXson.datatype.Flat;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class PrintDescending implements Command{
 
@@ -15,7 +16,7 @@ public class PrintDescending implements Command{
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
         if (c.getFlats().isEmpty()) {
             System.out.println("Collection is empty.");
             return;

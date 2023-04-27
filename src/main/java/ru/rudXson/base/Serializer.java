@@ -1,9 +1,8 @@
 package ru.rudXson.base;
 import com.google.gson.Gson;
 import ru.rudXson.datatype.Flat;
-import ru.rudXson.exceptions.NoPermission;
 
-import java.io.BufferedOutputStream;
+import javax.naming.NoPermissionException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;

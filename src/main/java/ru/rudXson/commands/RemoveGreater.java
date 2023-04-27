@@ -3,7 +3,6 @@ package ru.rudXson.commands;
 
 import ru.rudXson.base.CLIController;
 import ru.rudXson.datatype.Flat;
-import ru.rudXson.exceptions.NoPermission;
 
 import java.io.IOException;
 import java.util.Iterator;

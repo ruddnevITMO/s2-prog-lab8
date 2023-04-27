@@ -1,7 +1,6 @@
 package ru.rudXson.base;
 
 import ru.rudXson.datatype.Flat;
-import ru.rudXson.exceptions.NoPermission;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

@@ -6,6 +6,7 @@ import ru.rudXson.datatype.Flat;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Scanner;
 import java.util.UUID;
 
 public class AddIfMin implements Command {
@@ -21,8 +22,10 @@ public class AddIfMin implements Command {
     }
 
     @Override
-    public void execute(String[] args) {
-        InputManager inManager = new InputManager(c.getScanner());
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
+        Scanner scanner = c.getScanner();
+        if (fromExecute) scanner = executeScanner;
+        InputManager inManager = new InputManager(scanner);
         Flat flat = new Flat();
         inManager.describeFlat(flat);
 

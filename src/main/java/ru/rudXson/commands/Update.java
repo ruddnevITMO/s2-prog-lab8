@@ -6,6 +6,7 @@ import ru.rudXson.datatype.Flat;
 import ru.rudXson.exceptions.NotEnoughArgsException;
 import ru.rudXson.exceptions.WrongArgsException;
 
+import java.util.Scanner;
 import java.util.UUID;
 
 public class Update implements Command {
@@ -17,7 +18,7 @@ public class Update implements Command {
     }
 
     @Override
-    public void execute(String[] args) throws WrongArgsException, NotEnoughArgsException {
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) throws WrongArgsException, NotEnoughArgsException {
         if (args.length < 2) throw new NotEnoughArgsException("ID is required");
         UUID id;
         try {
@@ -30,7 +31,9 @@ public class Update implements Command {
         Flat flat = c.getFlatByID(id);
         if (flat == null) throw new WrongArgsException("There is no element with such ID");
 
-        InputManager inManager = new InputManager(c.getScanner());
+        Scanner scanner = c.getScanner();
+        if (fromExecute) scanner = executeScanner;
+        InputManager inManager = new InputManager(scanner);
         inManager.describeFlat(flat);
 
     }

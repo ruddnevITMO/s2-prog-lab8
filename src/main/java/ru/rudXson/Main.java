@@ -3,8 +3,7 @@ package ru.rudXson;
 import ru.rudXson.base.CommandExecutor;
 import ru.rudXson.base.CLIController;
 
-import ru.rudXson.exceptions.NoPermission;
-
+import javax.naming.NoPermissionException;
 import java.io.*;
 
 public class Main {

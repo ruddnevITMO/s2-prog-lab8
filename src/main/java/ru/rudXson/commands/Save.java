@@ -11,8 +11,8 @@ import java.util.Scanner;
 import ru.rudXson.base.CLIController;
 import ru.rudXson.base.FileValidator;
 import ru.rudXson.base.Serializer;
-import ru.rudXson.datatype.Flat;
-import ru.rudXson.exceptions.NoPermission;
+
+import javax.naming.NoPermissionException;
 
 public class Save implements Command {
 

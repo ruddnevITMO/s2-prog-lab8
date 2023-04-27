@@ -3,12 +3,20 @@ package ru.rudXson.base;
 import ru.rudXson.commands.*;
 
 import java.util.HashMap;
+import java.util.Scanner;
 
+/**
+ * This class represents a command executor that is used to execute different commands
+ */
 public class CommandExecutor {
     HashMap<String, Command> commands = new HashMap<>();
 
     CLIController c;
 
+    /**
+     * Constructs a new instance of the CommandExecutor
+     * @param c the command line interface controller to be used to execute the commands
+     */
     public CommandExecutor(CLIController c) {
         this.c = c;
         commands.put("help", new Help(commands));
@@ -28,6 +36,9 @@ public class CommandExecutor {
         commands.put("print_field_descending_transport",new PrintFieldDescendingTransport(c));
     }
 
+    /**
+     * Starts the interactive mode for the user to input commands
+     */
     public void startInteractiveMode(){
         System.out.println("Entered the interactive mode!");
         while (true) {
@@ -38,16 +49,18 @@ public class CommandExecutor {
                 continue;
             }
             try {
-                commands.get(line[0]).execute(line);
-//            } catch (NotEnoughArgsException e) {
-//                System.out.println("Not enough arguments. Usage: " + e.getUsage());
-//            } catch (WrongArgsException e) {
-//                System.out.println("Wrong arguments. Usage: " + e.getUsage());
+                commands.get(line[0]).execute(line, false, null);
             } catch (Exception e) {
                 System.out.println("An error occurred: " + e.getMessage());
             }
         }
     }
+
+    /**
+     * Returns the command object for the given command name
+     * @param commandName the name of the command to get
+     * @return the command object for the given command name
+     */
     public Command getCommand(String commandName) {
         if(!commands.containsKey(commandName)) return null; // check if command exist
         return commands.get(commandName);

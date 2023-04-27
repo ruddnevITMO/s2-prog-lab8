@@ -1,12 +1,18 @@
 package ru.rudXson.base;
 
+import com.google.gson.JsonSyntaxException;
 import ru.rudXson.datatype.Flat;
 
+import javax.naming.NoPermissionException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * The CLIController class represents a controller for a command-line interface that manages a collection of flats.
+ * It stores the name of the file containing the flats, a priority queue of flats, a scanner for user input, and the creation date of the flats.
+ */
 public class CLIController {
 
     private String fileName;
@@ -14,10 +20,18 @@ public class CLIController {
     private final Scanner scanner;
     private LocalDateTime creationDate;
 
-    public CLIController(String[] args) throws IOException, NoPermission {
+
+    /**
+     * Constructs a CLIController object with the given command-line arguments.
+     *
+     * @param args the command-line arguments
+     * @throws IOException if there was an error reading the file
+     * @throws NoPermissionException if the user does not have permission to access the file
+     */
+    public CLIController(String[] args) throws IOException, NoPermissionException {
         this.scanner = new Scanner(System.in);
 
-        // check if argument is provided
+        // Check if argument is provided
         if (args.length < 1) {
             System.out.println("No file name provided.");
             System.out.print("Please enter file name: ");
@@ -44,27 +58,57 @@ public class CLIController {
             System.out.print("Please enter another file name: ");
             this.fileName = this.scanner.nextLine();
             this.flats = Deserializer.deserialize(this.fileName);
+        } catch (JsonSyntaxException e) {
+            System.out.println("Error: Malformed JSON file.");
+            System.out.print("Please enter another file name: ");
+            this.fileName = this.scanner.nextLine();
+            this.flats = Deserializer.deserialize(this.fileName);
         }
     }
 
+    /**
+     * Adds a flat to the priority queue of flats.
+     *
+     * @param flat the flat to add
+     */
     public void addFlat(Flat flat) {
         flats.add(flat);
     }
 
 
-    // getters and setters
+    /**
+     * Returns the name of the file containing the flats.
+     *
+     * @return the name of the file
+     */
     public String getFileName() {
         return fileName;
     }
 
+    /**
+     * Sets the name of the file containing the flats.
+     *
+     * @param fileName the name of the file
+     */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
+    /**
+     * Returns the priority queue of flats.
+     *
+     * @return the priority queue of flats
+     */
     public PriorityQueue<Flat> getFlats() {
         return flats;
     }
 
+    /**
+     * Returns the flat with the given ID, or null if there is no such flat.
+     *
+     * @param id the ID of the flat to find
+     * @return the flat with the given ID, or null if there is no such flat
+     */
     public Flat getFlatByID(UUID id) {
         for (Flat flat : flats) {
             if (Objects.equals(id.toString(), flat.getId().toString())) {
@@ -74,17 +118,35 @@ public class CLIController {
         return null;
     }
 
+    /**
+     * Removes the flat with the given ID from the priority queue of flats.
+     *
+     * @param id the ID of the flat to remove
+     */
     public void removeFlatByID(UUID id) {
         flats.remove(getFlatByID(id));
     }
 
+    /**
+     * Returns the scanner used for user input.
+     *
+     * @return the scanner used for user input
+     */
     public Scanner getScanner() {
         return this.scanner;
     }
 
+    /**
+     * Returns the creation date of the flats in the format "dd.MM.yyyy HH:mm:ss".
+     *
+     * @return the creation date of the flats
+     */
     public String getCreationDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         return creationDate.format(formatter);
     }
 
 }
+
+
+

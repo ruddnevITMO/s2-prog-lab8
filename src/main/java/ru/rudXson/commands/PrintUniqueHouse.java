@@ -10,13 +10,13 @@ import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class PrintUniqueHouse implements Command {
-    private final CLIController c;
-    public PrintUniqueHouse(CLIController c) {
-        this.c = c;
+    private final CLIController controller;
+    public PrintUniqueHouse(CLIController controller) {
+        this.controller = controller;
     }
     @Override
     public void execute(String[] args, boolean fromExecute, Scanner executeScanner) throws NoPermissionException, IOException {
-        PriorityQueue<Flat> flats = c.getFlats();
+        PriorityQueue<Flat> flats = controller.getFlats();
 
         HashSet<String> uniqueHouses = new HashSet<>();
 

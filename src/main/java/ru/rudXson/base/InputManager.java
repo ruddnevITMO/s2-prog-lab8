@@ -31,13 +31,13 @@ public class InputManager {
         System.out.print("Number of rooms: ");
         flat.setNumberOfRooms(readPositiveLong());
 
-        System.out.print("Furnish (DESIGNER, NONE, FINE, LITTLE): ");
+        System.out.print("Furnish (DESIGNER, NONE, FINE, LITTLE) or (1, 2, 3, 4): ");
         flat.setFurnish(readFurnish());
 
-        System.out.print("View (STREET, PARK, NORMAL, GOOD, TERRIBLE): ");
+        System.out.print("View (STREET, PARK, NORMAL, GOOD, TERRIBLE) or (1, 2, 3, 4, 5): ");
         flat.setView(readView());
 
-        System.out.print("Transport (FEW, NONE, NORMAL): ");
+        System.out.print("Transport (FEW, NONE, NORMAL) or (1, 2, 3): ");
         flat.setTransport(readTransport());
 
         System.out.print("House name (or enter nothing): ");
@@ -128,10 +128,19 @@ public class InputManager {
         boolean validInput = false;
         while (!validInput) {
             try {
-                furnish = Enum.valueOf(Furnish.class, input);
+                if (input.matches("\\d+")) { // check if input is a number
+                    int index = Integer.parseInt(input);
+                    try {
+                        furnish = Furnish.values()[index - 1]; // use the index to get the enum value
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        throw new IllegalArgumentException();
+                    }
+                } else {
+                    furnish = Enum.valueOf(Furnish.class, input); // use the enum name directly
+                }
                 validInput = true;
             } catch (IllegalArgumentException e) {
-                System.out.print("Please enter a valid Furnish (DESIGNER, NONE, FINE, LITTLE): ");
+                System.out.print("Please enter a valid Furnish (DESIGNER, NONE, FINE, LITTLE) or (1, 2, 3, 4): ");
                 input = this.scanner.nextLine().toUpperCase().trim();
             }
         }
@@ -144,10 +153,19 @@ public class InputManager {
         boolean validInput = false;
         while (!validInput) {
             try {
-                view = Enum.valueOf(View.class, input);
+                if (input.matches("\\d+")) { // check if input is a number
+                    int index = Integer.parseInt(input);
+                    try {
+                        view = View.values()[index - 1]; // use the index to get the enum value
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        throw new IllegalArgumentException();
+                    }
+                } else {
+                    view = Enum.valueOf(View.class, input); // use the enum name directly
+                }
                 validInput = true;
             } catch (IllegalArgumentException e) {
-                System.out.print("Please enter a valid View (STREET, PARK, NORMAL, GOOD, TERRIBLE): ");
+                System.out.print("Please enter a valid View (STREET, PARK, NORMAL, GOOD, TERRIBLE) or (1, 2, 3, 4, 5): ");
                 input = this.scanner.nextLine().toUpperCase().trim();
             }
         }
@@ -161,10 +179,19 @@ public class InputManager {
         boolean validInput = false;
         while (!validInput) {
             try {
-                transport = Enum.valueOf(Transport.class, input);
+                if (input.matches("\\d+")) { // check if input is a number
+                    int index = Integer.parseInt(input);
+                    try {
+                        transport = Transport.values()[index - 1]; // use the index to get the enum value
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        throw new IllegalArgumentException();
+                    }
+                } else {
+                    transport = Enum.valueOf(Transport.class, input); // use the enum name directly
+                }
                 validInput = true;
             } catch (IllegalArgumentException e) {
-                System.out.print("Please enter a valid Transport (FEW, NONE, NORMAL): ");
+                System.out.print("Please enter a valid Transport (FEW, NONE, NORMAL) or (1, 2, 3, 4): ");
                 input = this.scanner.nextLine().toUpperCase().trim();
             }
         }

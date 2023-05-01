@@ -1,6 +1,7 @@
 package ru.rudXson.commands;
 
 import ru.rudXson.base.CommandExecutor;
+import ru.rudXson.exceptions.ExitException;
 import ru.rudXson.exceptions.NotEnoughArgsException;
 import ru.rudXson.exceptions.WrongArgsException;
 
@@ -10,11 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class ExecuteScript implements Command {
-    CommandExecutor commandExecutor;
+    private final CommandExecutor commandExecutor;
     private static final ArrayList<Integer> recursionHistory = new ArrayList<>();
 
 
@@ -59,8 +59,6 @@ public class ExecuteScript implements Command {
             String[] args = currLine.trim().toLowerCase().split(" ");
             Command command = commandExecutor.getCommand(args[0]);
 
-
-
             if (command == null) {
                 System.out.println(args[0] + " is not a command. Try again.");
                 continue;
@@ -70,21 +68,17 @@ public class ExecuteScript implements Command {
                 if (command.getClass() == ExecuteScript.class) {
                     if (ExecuteScript.recursionHistory.contains(args[1].hashCode())) {
                         System.out.println("Recursion! Command skipped!");
-                        System.out.println(ExecuteScript.recursionHistory);
                         return;
                     }
                     ExecuteScript.recursionHistory.add(args[0].hashCode());
                 }
                 command.execute(args, true, scanner);
 
-            } catch (WrongArgsException e) {
-                System.out.println("Error while running " + args[0] + " command.");
-                System.out.println("Wrong argument! " + e.getMessage() + " Command skipped");
-            } catch (NotEnoughArgsException e) {
-                System.out.println("Error while running " + args[0] + " command.");
-                System.out.println("Not enough arguments. " + e.getMessage() + " Command skipped");
-            } catch (NoPermissionException e) {
-                throw new RuntimeException(e);
+
+            } catch (NotEnoughArgsException |  NoPermissionException | WrongArgsException | IOException e) {
+                System.out.println("An error occurred: " + e.getMessage());
+            } catch (ExitException e) {
+                break;
             }
 
 

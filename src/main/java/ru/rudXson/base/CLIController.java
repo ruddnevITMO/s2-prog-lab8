@@ -2,10 +2,12 @@ package ru.rudXson.base;
 
 import com.google.gson.JsonSyntaxException;
 import ru.rudXson.datatype.Flat;
+import ru.rudXson.exceptions.WrongArgsException;
 
 import javax.naming.NoPermissionException;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -18,7 +20,7 @@ public class CLIController {
     private String fileName;
     private PriorityQueue<Flat> flats;
     private final Scanner scanner;
-    private LocalDateTime creationDate;
+    private Date creationDate;
 
 
     /**
@@ -41,29 +43,38 @@ public class CLIController {
         }
 
         // Check if file exists and has write access
-        try {
-            FileValidator.checkFile(this.fileName);
-        } catch (Exception e) {
-            System.out.println("Error: You don't have permission to access the file or it doesn't exist.");
-            System.out.print("Please enter another file name: ");
-            this.fileName = this.scanner.nextLine();
-            FileValidator.checkFile(this.fileName);
+        while (true) {
+            try {
+                FileValidator.checkFile(this.fileName);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: You don't have permission to access the file or it doesn't exist.");
+                System.out.print("Please enter another file name: ");
+                this.fileName = this.scanner.nextLine();
+                FileValidator.checkFile(this.fileName);
+            }
         }
 
         // Deserialize the file and store the data in a priority queue
-        try {
-            this.flats = Deserializer.deserialize(this.fileName);
-        } catch (IOException e) {
-            System.out.println("Error: Unable to read the file.");
-            System.out.print("Please enter another file name: ");
-            this.fileName = this.scanner.nextLine();
-            this.flats = Deserializer.deserialize(this.fileName);
-        } catch (JsonSyntaxException e) {
-            System.out.println("Error: Malformed JSON file.");
-            System.out.print("Please enter another file name: ");
-            this.fileName = this.scanner.nextLine();
-            this.flats = Deserializer.deserialize(this.fileName);
+        while (true) {
+            try {
+                this.flats = Deserializer.deserialize(this.fileName);
+                break;
+            } catch (IOException e) {
+                System.out.println("Error: Unable to read the file.");
+                System.out.print("Please enter another file name: ");
+                this.fileName = this.scanner.nextLine();
+                this.flats = Deserializer.deserialize(this.fileName);
+            } catch (JsonSyntaxException e) {
+                System.out.println("Error: Malformed JSON file.");
+                System.out.print("Please enter another file name: ");
+                this.fileName = this.scanner.nextLine();
+                this.flats = Deserializer.deserialize(this.fileName);
+            }
         }
+
+        creationDate = this.flats.peek().getCreationDate();;
+
     }
 
     /**
@@ -109,13 +120,13 @@ public class CLIController {
      * @param id the ID of the flat to find
      * @return the flat with the given ID, or null if there is no such flat
      */
-    public Flat getFlatByID(UUID id) {
+    public Flat getFlatByID(UUID id) throws WrongArgsException {
         for (Flat flat : flats) {
             if (Objects.equals(id.toString(), flat.getId().toString())) {
                 return flat;
             }
         }
-        return null;
+        throw new WrongArgsException("There is no element with such UUID");
     }
 
     /**
@@ -123,7 +134,7 @@ public class CLIController {
      *
      * @param id the ID of the flat to remove
      */
-    public void removeFlatByID(UUID id) {
+    public void removeFlatByID(UUID id) throws WrongArgsException {
         flats.remove(getFlatByID(id));
     }
 
@@ -143,7 +154,7 @@ public class CLIController {
      */
     public String getCreationDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        return creationDate.format(formatter);
+        return this.creationDate.toInstant().atZone(ZoneId.systemDefault()).format(formatter);
     }
 
 }

@@ -9,11 +9,9 @@ import java.util.Scanner;
 public class Clear implements Command {
 
     private final PriorityQueue<Flat> collection;
-    private final CLIController c;
 
-    public Clear(CLIController c) {
-        this.c = c;
-        this.collection = c.getFlats();
+    public Clear(CLIController controller) {
+        this.collection = controller.getFlats();
     }
 
     @Override

@@ -11,27 +11,23 @@ import java.util.UUID;
 
 public class Update implements Command {
 
-    private final CLIController c;
+    private final CLIController controller;
 
-    public Update(CLIController c) {
-        this.c = c;
+    public Update(CLIController controller) {
+        this.controller = controller;
     }
 
     @Override
     public void execute(String[] args, boolean fromExecute, Scanner executeScanner) throws WrongArgsException, NotEnoughArgsException {
         if (args.length < 2) throw new NotEnoughArgsException("ID is required");
-        UUID id;
+        Flat flat;
         try {
-            id = UUID.fromString(args[1]);
-        }
-        catch (IllegalArgumentException e){
+            flat = controller.getFlatByID(UUID.fromString(args[1]));
+        } catch (IllegalArgumentException e) {
             throw new WrongArgsException("You need to supply an ID, which is an UUID");
         }
 
-        Flat flat = c.getFlatByID(id);
-        if (flat == null) throw new WrongArgsException("There is no element with such ID");
-
-        Scanner scanner = c.getScanner();
+        Scanner scanner = controller.getScanner();
         if (fromExecute) scanner = executeScanner;
         InputManager inManager = new InputManager(scanner);
         inManager.describeFlat(flat);

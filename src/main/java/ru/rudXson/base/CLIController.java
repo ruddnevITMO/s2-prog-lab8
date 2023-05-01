@@ -2,6 +2,7 @@ package ru.rudXson.base;
 
 import com.google.gson.JsonSyntaxException;
 import ru.rudXson.datatype.Flat;
+import ru.rudXson.exceptions.WrongArgsException;
 
 import javax.naming.NoPermissionException;
 import java.io.IOException;
@@ -119,13 +120,13 @@ public class CLIController {
      * @param id the ID of the flat to find
      * @return the flat with the given ID, or null if there is no such flat
      */
-    public Flat getFlatByID(UUID id) {
+    public Flat getFlatByID(UUID id) throws WrongArgsException {
         for (Flat flat : flats) {
             if (Objects.equals(id.toString(), flat.getId().toString())) {
                 return flat;
             }
         }
-        throw new IllegalArgumentException();
+        throw new WrongArgsException("There is no element with such UUID");
     }
 
     /**
@@ -133,7 +134,7 @@ public class CLIController {
      *
      * @param id the ID of the flat to remove
      */
-    public void removeFlatByID(UUID id) {
+    public void removeFlatByID(UUID id) throws WrongArgsException {
         flats.remove(getFlatByID(id));
     }
 

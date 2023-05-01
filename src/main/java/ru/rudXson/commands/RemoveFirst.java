@@ -6,15 +6,15 @@ import java.util.Scanner;
 
 
 public class RemoveFirst implements Command {
-    CLIController c;
+    private final CLIController controller;
 
-    public RemoveFirst(CLIController c) {
-        this.c = c;
+    public RemoveFirst(CLIController controller) {
+        this.controller = controller;
     }
 
     @Override
     public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
-        c.getFlats().poll();
+        controller.getFlats().poll();
     }
 
     @Override

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Help implements Command{
-    HashMap<String, Command> commands;
+    private final HashMap<String, Command> commands;
 
     public Help(HashMap<String, Command> commands) {
         this.commands = commands;

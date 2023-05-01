@@ -14,7 +14,7 @@ import javax.naming.NoPermissionException;
 
 public class Save implements Command {
 
-    private final CLIController c;
+    private final CLIController controller;
 
     /**
      * Constructs a Save command with the given Scanner, priority queue of flats and file name.
@@ -22,7 +22,7 @@ public class Save implements Command {
      * @param controller an object that holds every argument needed
      */
     public Save(CLIController controller) {
-        this.c = controller;
+        this.controller = controller;
     }
 
     /**
@@ -35,14 +35,14 @@ public class Save implements Command {
     public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
         while (true) {
             try {
-                FileValidator.checkFile(c.getFileName());
-                Serializer.serialize(c.getFlats(), c.getFileName());
+                FileValidator.checkFile(controller.getFileName());
+                Serializer.serialize(controller.getFlats(), controller.getFileName());
                 System.out.println("Successfully saved collection to a file!");
                 break;
             } catch (NoPermissionException | IOException e) {
                 System.out.println("Error writing to file: " + e.getMessage());
                 System.out.print("Enter a new file name: ");
-                c.setFileName(c.getScanner().nextLine());
+                controller.setFileName(controller.getScanner().nextLine());
             }
         }
     }

@@ -3,13 +3,11 @@ package ru.rudXson.commands;
 import ru.rudXson.base.CLIController;
 import ru.rudXson.datatype.Flat;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class Info implements Command{
-    CLIController controller;
+    private final CLIController controller;
 
     public Info(CLIController controller) {
         this.controller = controller;

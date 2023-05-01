@@ -11,11 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class ExecuteScript implements Command {
-    CommandExecutor commandExecutor;
+    private final CommandExecutor commandExecutor;
     private static final ArrayList<Integer> recursionHistory = new ArrayList<>();
 
 
@@ -60,8 +59,6 @@ public class ExecuteScript implements Command {
             String[] args = currLine.trim().toLowerCase().split(" ");
             Command command = commandExecutor.getCommand(args[0]);
 
-
-
             if (command == null) {
                 System.out.println(args[0] + " is not a command. Try again.");
                 continue;
@@ -71,7 +68,6 @@ public class ExecuteScript implements Command {
                 if (command.getClass() == ExecuteScript.class) {
                     if (ExecuteScript.recursionHistory.contains(args[1].hashCode())) {
                         System.out.println("Recursion! Command skipped!");
-                        System.out.println(ExecuteScript.recursionHistory);
                         return;
                     }
                     ExecuteScript.recursionHistory.add(args[0].hashCode());

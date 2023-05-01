@@ -5,15 +5,15 @@ import ru.rudXson.base.CLIController;
 import java.util.Scanner;
 
 public class Show implements Command {
-    CLIController c;
+    private final CLIController controller;
 
-    public Show(CLIController c) {
-        this.c = c;
+    public Show(CLIController controller) {
+        this.controller = controller;
     }
 
     @Override
     public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
-        System.out.println(c.getFlats());
+        System.out.println(controller.getFlats());
     }
 
     @Override

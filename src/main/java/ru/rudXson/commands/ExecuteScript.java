@@ -1,6 +1,7 @@
 package ru.rudXson.commands;
 
 import ru.rudXson.base.CommandExecutor;
+import ru.rudXson.exceptions.ExitException;
 import ru.rudXson.exceptions.NotEnoughArgsException;
 import ru.rudXson.exceptions.WrongArgsException;
 
@@ -77,14 +78,11 @@ public class ExecuteScript implements Command {
                 }
                 command.execute(args, true, scanner);
 
-            } catch (WrongArgsException e) {
-                System.out.println("Error while running " + args[0] + " command.");
-                System.out.println("Wrong argument! " + e.getMessage() + " Command skipped");
-            } catch (NotEnoughArgsException e) {
-                System.out.println("Error while running " + args[0] + " command.");
-                System.out.println("Not enough arguments. " + e.getMessage() + " Command skipped");
-            } catch (NoPermissionException e) {
-                throw new RuntimeException(e);
+
+            } catch (NotEnoughArgsException |  NoPermissionException | WrongArgsException | IOException e) {
+                System.out.println("An error occurred: " + e.getMessage());
+            } catch (ExitException e) {
+                break;
             }
 
 

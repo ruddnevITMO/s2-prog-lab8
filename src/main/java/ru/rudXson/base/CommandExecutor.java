@@ -1,7 +1,12 @@
 package ru.rudXson.base;
 
 import ru.rudXson.commands.*;
+import ru.rudXson.exceptions.ExitException;
+import ru.rudXson.exceptions.NotEnoughArgsException;
+import ru.rudXson.exceptions.WrongArgsException;
 
+import javax.naming.NoPermissionException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -50,8 +55,10 @@ public class CommandExecutor {
             }
             try {
                 commands.get(line[0]).execute(line, false, null);
-            } catch (Exception e) {
+            } catch (NotEnoughArgsException |  NoPermissionException | WrongArgsException | IOException e) {
                 System.out.println("An error occurred: " + e.getMessage());
+            } catch (ExitException e) {
+                break;
             }
         }
     }

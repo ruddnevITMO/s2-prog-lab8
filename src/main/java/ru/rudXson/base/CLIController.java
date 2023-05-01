@@ -41,13 +41,16 @@ public class CLIController {
         }
 
         // Check if file exists and has write access
-        try {
-            FileValidator.checkFile(this.fileName);
-        } catch (Exception e) {
-            System.out.println("Error: You don't have permission to access the file or it doesn't exist.");
-            System.out.print("Please enter another file name: ");
-            this.fileName = this.scanner.nextLine();
-            FileValidator.checkFile(this.fileName);
+        while (true) {
+            try {
+                FileValidator.checkFile(this.fileName);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: You don't have permission to access the file or it doesn't exist.");
+                System.out.print("Please enter another file name: ");
+                this.fileName = this.scanner.nextLine();
+                FileValidator.checkFile(this.fileName);
+            }
         }
 
         // Deserialize the file and store the data in a priority queue

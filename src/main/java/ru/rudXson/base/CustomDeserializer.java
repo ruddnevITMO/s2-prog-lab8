@@ -23,7 +23,7 @@ public class CustomDeserializer<T> implements JsonDeserializer<List<T>> {
                 try {
                     T obj = context.deserialize(element, clazz);
                     list.add(obj);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                     ignoredElements += 1;
                 }
             }

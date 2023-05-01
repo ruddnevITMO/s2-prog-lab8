@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class Info implements Command{
-    private CLIController controller;
+    CLIController controller;
 
     public Info(CLIController controller) {
         this.controller = controller;
@@ -18,13 +18,12 @@ public class Info implements Command{
     @Override
     public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
         PriorityQueue<Flat> flats = controller.getFlats();
-        String creationDate = flats.peek().getCreationDate().toString();;
 
 
         String result = "";
         result += "\tInformation about collection:\n";
-        result += "Created at " + creationDate + '\n';
-        result += "Collection type is " + flats.getClass().getName() + '\n';
+        result += "Created at " + controller.getCreationDate() + '\n';
+        result += "Collection type is " + flats.getClass().getSimpleName() + '\n';
         result += "Amount of items stored in - " + flats.size();
 
         System.out.println(result);

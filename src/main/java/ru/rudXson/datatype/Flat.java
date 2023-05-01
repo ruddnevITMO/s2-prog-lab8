@@ -150,6 +150,6 @@ public class Flat implements Comparable<Flat> {
 
     @Override
     public int compareTo(Flat other) {
-        return this.id.compareTo(other.id);
+        return this.creationDate.compareTo(other.creationDate);
     }
 }

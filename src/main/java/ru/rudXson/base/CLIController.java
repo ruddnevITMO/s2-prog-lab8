@@ -6,6 +6,7 @@ import ru.rudXson.datatype.Flat;
 import javax.naming.NoPermissionException;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -18,7 +19,7 @@ public class CLIController {
     private String fileName;
     private PriorityQueue<Flat> flats;
     private final Scanner scanner;
-    private LocalDateTime creationDate;
+    private Date creationDate;
 
 
     /**
@@ -54,19 +55,25 @@ public class CLIController {
         }
 
         // Deserialize the file and store the data in a priority queue
-        try {
-            this.flats = Deserializer.deserialize(this.fileName);
-        } catch (IOException e) {
-            System.out.println("Error: Unable to read the file.");
-            System.out.print("Please enter another file name: ");
-            this.fileName = this.scanner.nextLine();
-            this.flats = Deserializer.deserialize(this.fileName);
-        } catch (JsonSyntaxException e) {
-            System.out.println("Error: Malformed JSON file.");
-            System.out.print("Please enter another file name: ");
-            this.fileName = this.scanner.nextLine();
-            this.flats = Deserializer.deserialize(this.fileName);
+        while (true) {
+            try {
+                this.flats = Deserializer.deserialize(this.fileName);
+                break;
+            } catch (IOException e) {
+                System.out.println("Error: Unable to read the file.");
+                System.out.print("Please enter another file name: ");
+                this.fileName = this.scanner.nextLine();
+                this.flats = Deserializer.deserialize(this.fileName);
+            } catch (JsonSyntaxException e) {
+                System.out.println("Error: Malformed JSON file.");
+                System.out.print("Please enter another file name: ");
+                this.fileName = this.scanner.nextLine();
+                this.flats = Deserializer.deserialize(this.fileName);
+            }
         }
+
+        creationDate = this.flats.peek().getCreationDate();;
+
     }
 
     /**
@@ -118,7 +125,7 @@ public class CLIController {
                 return flat;
             }
         }
-        return null;
+        throw new IllegalArgumentException();
     }
 
     /**
@@ -146,7 +153,7 @@ public class CLIController {
      */
     public String getCreationDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        return creationDate.format(formatter);
+        return this.creationDate.toInstant().atZone(ZoneId.systemDefault()).format(formatter);
     }
 
 }

@@ -3,6 +3,7 @@ package ru.rudXson.commands;
 
 import ru.rudXson.base.CLIController;
 import ru.rudXson.datatype.Flat;
+import ru.rudXson.exceptions.NotEnoughArgsException;
 
 import javax.naming.NoPermissionException;
 import java.io.IOException;
@@ -18,26 +19,23 @@ public class RemoveGreater implements Command {
     }
 
     @Override
-    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) throws NoPermissionException, IOException {
-        if (args.length != 1) {
-            System.out.println("There's no args");
-            return;
-        }
+    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) throws NotEnoughArgsException {
+        if (args.length < 2) throw new NotEnoughArgsException("ID is required");
         UUID id = UUID.fromString(args[1]);
-        Flat mainFlat = c.getFlatByID(id);
-        Iterator<Flat> iter = c.getFlats().iterator();
-        while (iter.hasNext()) {
-            Flat flat = iter.next();
-            if (mainFlat.compareTo(flat) > 0) {
-                iter.remove();
-            }
+        try {
+            Flat mainFlat = c.getFlatByID(id);
+            c.getFlats().removeIf(flat -> mainFlat.compareTo(flat) > 0);
+            System.out.println("Elements removed successfully.");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("You need to supply an ID, which is an UUID");
         }
-        System.out.println("Elements removed successfully.");
+
     }
 
     @Override
     public String getDescription() {
-        return "remove_greater id : remove all elements greater than given";
+        return "removes all elements greater than the one given";
     }
 }
 

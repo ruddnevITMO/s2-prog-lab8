@@ -38,7 +38,8 @@ public class CommandExecutor {
         commands.put("clear", new Clear(c));
         commands.put("print_unique_house", new PrintUniqueHouse(c));
         commands.put("exit", new Exit());
-        commands.put("print_field_descending_transport",new PrintFieldDescendingTransport(c));
+        commands.put("remove_greater", new RemoveGreater(c));
+        commands.put("print_field_descending_transport", new PrintFieldDescendingTransport(c));
     }
 
     /**

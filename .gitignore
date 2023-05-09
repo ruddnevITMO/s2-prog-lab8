@@ -2,3 +2,4 @@
 out
 client/target
 server/target
+common/target

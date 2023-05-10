@@ -1,10 +1,8 @@
 package ru.rudXson.responses;
 
 public class AddResponse extends Response {
-  public final int newId;
 
-  public AddResponse(int newId, String error) {
+  public AddResponse(String error) {
     super("add", error);
-    this.newId = newId;
   }
 }

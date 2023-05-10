@@ -4,6 +4,7 @@ import ru.rudXson.base.CommandExecutor;
 import ru.rudXson.exceptions.ExitException;
 import ru.rudXson.exceptions.NotEnoughArgsException;
 import ru.rudXson.exceptions.WrongArgsException;
+import ru.rudXson.base.Client;
 
 import javax.naming.NoPermissionException;
 import java.io.*;
@@ -23,7 +24,7 @@ public class ExecuteScript implements Command {
     }
 
     @Override
-    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) throws WrongArgsException, NotEnoughArgsException, IOException {
+    public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws WrongArgsException, NotEnoughArgsException, IOException {
         if (args.length < 2) throw new NotEnoughArgsException("Command requires \"path\" argument");
         Path path = Paths.get(args[1]);
         recursionHistory.add(args[1].hashCode());
@@ -44,7 +45,7 @@ public class ExecuteScript implements Command {
 
         try (Scanner scanner = new Scanner(new File(path.toUri()))) {
             System.out.println("Running " + path);
-            runThrough(scanner);
+            runThrough(scanner, client);
             recursionHistory.clear();
 
         } catch (IOException e) {
@@ -52,7 +53,7 @@ public class ExecuteScript implements Command {
         }
     }
 
-    private void runThrough(Scanner scanner) throws IOException {
+    private void runThrough(Scanner scanner, Client client) throws IOException {
         while (scanner.hasNextLine()) {
             String currLine = scanner.nextLine();
             if (currLine == null) return;
@@ -72,7 +73,7 @@ public class ExecuteScript implements Command {
                     }
                     ExecuteScript.recursionHistory.add(args[0].hashCode());
                 }
-                command.execute(args, true, scanner);
+                command.execute(args, client,true, scanner);
 
 
             } catch (NotEnoughArgsException |  NoPermissionException | WrongArgsException | IOException e) {

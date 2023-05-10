@@ -1,32 +1,36 @@
 
 package ru.rudXson.commands;
 
-import ru.rudXson.base.CLIController;
+import ru.rudXson.base.InputManager;
 import ru.rudXson.datatype.Flat;
 import ru.rudXson.exceptions.NotEnoughArgsException;
 import ru.rudXson.exceptions.WrongArgsException;
+import ru.rudXson.base.Client;
+import ru.rudXson.requests.RemoveGreaterRequest;
+import ru.rudXson.responses.RemoveFirstResponse;
+import ru.rudXson.responses.RemoveGreaterResponse;
 
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.UUID;
 
 public class RemoveGreater implements Command {
-    private final CLIController controller;
 
-    public RemoveGreater(CLIController controller) {
-        this.controller = controller;
+    private Scanner scanner;
+
+    public RemoveGreater() {
     }
 
     @Override
-    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) throws NotEnoughArgsException, WrongArgsException {
-        if (args.length < 2) throw new NotEnoughArgsException("ID is required");
-        Flat mainFlat;
-        try {
-            mainFlat = controller.getFlatByID(UUID.fromString(args[1]));
-        } catch (IllegalArgumentException e) {
-            throw new WrongArgsException("You need to supply an ID, which is an UUID");
-        }
+    public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws IOException {
+        Scanner currScanner = this.scanner;
+        if (fromExecute) currScanner = executeScanner;
+        InputManager inManager = new InputManager(currScanner);
+        Flat flat = new Flat();
+        inManager.describeFlat(flat);
 
-        controller.getFlats().removeIf(flat -> mainFlat.compareTo(flat) > 0);
+
+        RemoveGreaterResponse response = (RemoveGreaterResponse) client.sendRequestGetResponse(new RemoveGreaterRequest(flat));
         System.out.println("Elements removed successfully.");
 
     }

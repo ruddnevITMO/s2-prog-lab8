@@ -1,26 +1,22 @@
 package ru.rudXson.commands;
-
-import ru.rudXson.base.CLIController;
+;
 import ru.rudXson.datatype.Flat;
+import ru.rudXson.base.Client;
+import ru.rudXson.requests.PrintFieldDescendingTransportRequest;
+import ru.rudXson.responses.PrintFieldDescendingTransportResponse;
 
-import javax.naming.NoPermissionException;
 import java.io.IOException;
-import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class PrintFieldDescendingTransport implements Command {
-    private final CLIController controller;
-    public PrintFieldDescendingTransport(CLIController controller){
-        this.controller = controller;
+    public PrintFieldDescendingTransport(){
+
     }
     @Override
-    public void execute(String[] args, boolean fromExecute, Scanner scanner) throws NoPermissionException, IOException {
-        PriorityQueue<Flat> flats = controller.getFlats();
+    public void execute(String[] args, Client client, boolean fromExecute, Scanner scanner) throws IOException {
+        PrintFieldDescendingTransportResponse response = (PrintFieldDescendingTransportResponse) client.sendRequestGetResponse(new PrintFieldDescendingTransportRequest());
 
-        PriorityQueue<Flat> transportPriorityQueue = new PriorityQueue<>((f1, f2) -> f2.getTransport().compareTo(f1.getTransport()));
-        transportPriorityQueue.addAll(flats);
-
-        for (Flat flat : transportPriorityQueue) {
+        for (Flat flat : response.flats) {
             System.out.println(flat.getTransport());
         }
     }

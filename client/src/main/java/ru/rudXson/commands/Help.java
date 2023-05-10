@@ -1,5 +1,7 @@
 package ru.rudXson.commands;
 
+import ru.rudXson.base.Client;
+
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -11,7 +13,7 @@ public class Help implements Command{
     }
 
     @Override
-    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
+    public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) {
         System.out.printf("%-35s   %-90s %n", "COMMAND", "DESCRIPTION");
         System.out.printf("--------------------------------------------------------------------------%n");
         for (String command:commands.keySet()){

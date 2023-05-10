@@ -1,6 +1,8 @@
 package ru.rudXson.datatype;
 
-public class Coordinates {
+import java.io.Serializable;
+
+public class Coordinates implements Serializable {
     private double x; // Максимальное значение поля: 314
     private double y; // Максимальное значение поля: 314
 

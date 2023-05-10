@@ -1,11 +1,12 @@
 package ru.rudXson.datatype;
 
+import java.io.Serializable;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.UUID;
 
-public class Flat implements Comparable<Flat> {
+public class Flat implements Comparable<Flat>, Serializable {
     private UUID id; // Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; // Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; // Поле не может быть null
@@ -77,6 +78,10 @@ public class Flat implements Comparable<Flat> {
 
     private void setId() {
         this.id = UUID.randomUUID();
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public void setName(String name) {

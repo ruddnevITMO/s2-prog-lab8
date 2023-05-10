@@ -1,6 +1,8 @@
 package ru.rudXson.datatype;
 
-public enum Furnish {
+import java.io.Serializable;
+
+public enum Furnish implements Serializable {
     DESIGNER,
     NONE,
     FINE,

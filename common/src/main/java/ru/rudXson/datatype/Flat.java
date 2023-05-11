@@ -98,6 +98,10 @@ public class Flat implements Comparable<Flat>, Serializable {
         this.coordinates = coordinates;
     }
 
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
     private void setCreationDate() {
         this.creationDate = new Date();
     }

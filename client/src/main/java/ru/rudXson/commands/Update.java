@@ -38,6 +38,7 @@ public class Update implements Command {
 
 
         UpdateResponse response = (UpdateResponse) client.sendRequestGetResponse(new UpdateRequest(id, flat));
+        if (response.error != null) System.out.println(response.error);
 
     }
 

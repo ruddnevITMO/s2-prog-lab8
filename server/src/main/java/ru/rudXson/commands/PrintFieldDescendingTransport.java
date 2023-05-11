@@ -19,7 +19,7 @@ public class PrintFieldDescendingTransport implements Command {
     @Override
     public Response execute(Request req)  {
         if (controller.getFlats().isEmpty()) {
-            return new PrintFieldDescendingTransportResponse(new Flat[0],null);
+            return new PrintFieldDescendingTransportResponse(List.of(new Transport[0]),null);
         }
 
         PriorityQueue<Flat> transportPriorityQueue = new PriorityQueue<>((f1, f2) -> f2.getTransport().compareTo(f1.getTransport()));

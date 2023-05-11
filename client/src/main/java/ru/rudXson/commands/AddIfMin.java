@@ -8,6 +8,7 @@ import ru.rudXson.base.InputManager;
 import ru.rudXson.datatype.Flat;
 import ru.rudXson.requests.AddIfMinRequest;
 import ru.rudXson.responses.AddIfMinResponse;
+import ru.rudXson.responses.ErrorResponse;
 
 public class AddIfMin implements Command {
     private final Scanner scanner;
@@ -30,10 +31,6 @@ public class AddIfMin implements Command {
         inManager.describeFlat(flat);
 
         AddIfMinResponse response = (AddIfMinResponse) client.sendRequestGetResponse(new AddIfMinRequest(flat));
-
-//        System.out.println("Flat was added to collection.");
-//        } else {
-//            System.out.println("Flat was not added to collection. Its value is greater than or equal to the minimum value in the collection.");
-//        }
+        if (response.error != null) System.out.println(response.error);
     }
 }

@@ -1,7 +1,7 @@
 package ru.rudXson.commands;
 
-import ru.rudXson.datatype.Flat;
 import ru.rudXson.base.Client;
+import ru.rudXson.datatype.Flat;
 import ru.rudXson.requests.PrintDescendingRequest;
 import ru.rudXson.responses.PrintDescendingResponse;
 

@@ -2,6 +2,7 @@ package ru.rudXson.commands;
 
 import ru.rudXson.base.CLIController;
 import ru.rudXson.datatype.Flat;
+import ru.rudXson.requests.AddIfMinRequest;
 import ru.rudXson.requests.AddRequest;
 import ru.rudXson.requests.Request;
 import ru.rudXson.responses.AddIfMinResponse;
@@ -22,7 +23,7 @@ public class AddIfMin implements Command {
 
     @Override
     public Response execute(Request req) {
-        AddRequest request = (AddRequest) req;
+        AddIfMinRequest request = (AddIfMinRequest) req;
 
         Object[] flatsArray = controller.getFlats().toArray();
         Flat minFlat = null;

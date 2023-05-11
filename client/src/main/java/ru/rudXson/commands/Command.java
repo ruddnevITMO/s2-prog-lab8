@@ -10,6 +10,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
     public interface Command {
-     void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws NoPermissionException, IOException, WrongArgsException, NotEnoughArgsException, ExitException; // throws NEA, WA
+        void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws NoPermissionException, IOException, WrongArgsException, NotEnoughArgsException, ExitException; // throws NEA, WA
     String getDescription();
 }

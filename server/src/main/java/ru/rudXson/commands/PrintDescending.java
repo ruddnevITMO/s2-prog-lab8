@@ -6,8 +6,7 @@ import ru.rudXson.requests.Request;
 import ru.rudXson.responses.PrintDescendingResponse;
 import ru.rudXson.responses.Response;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class PrintDescending implements Command {
 
@@ -20,13 +19,14 @@ public class PrintDescending implements Command {
     @Override
     public Response execute(Request req) {
         if (controller.getFlats().isEmpty()) {
-            return new PrintDescendingResponse(new Flat[0],null);
+            return new PrintDescendingResponse(new ArrayList<>(),null);
         }
         PriorityQueue<Flat> sortedFlats = new PriorityQueue<>(Comparator.reverseOrder());
         sortedFlats.addAll(controller.getFlats());
-
-        Flat[] result = new Flat[0];
-        sortedFlats.toArray(result);
+        List<Flat> result = new ArrayList<>(sortedFlats.size());
+        while (!sortedFlats.isEmpty()) {
+            result.add(sortedFlats.poll());
+        }
 
         return new PrintDescendingResponse(result, null);
     }

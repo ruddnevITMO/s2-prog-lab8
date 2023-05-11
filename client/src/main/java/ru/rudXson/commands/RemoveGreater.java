@@ -15,9 +15,10 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class RemoveGreater implements Command {
+    private final Scanner scanner;
 
-
-    public RemoveGreater() {
+    public RemoveGreater(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     @Override

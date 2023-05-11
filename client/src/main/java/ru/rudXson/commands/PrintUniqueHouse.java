@@ -16,7 +16,7 @@ public class PrintUniqueHouse implements Command {
     public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws NoPermissionException, IOException {
         PrintUniqueHouseResponse response = (PrintUniqueHouseResponse) client.sendRequestGetResponse(new PrintUniqueHouseRequest());
 
-        System.out.println("Unique house values:");
+        if (response.uniqueHouses.isEmpty()) System.out.println("Unique house values:");
         for (String house : response.uniqueHouses) {
             System.out.println(house);
         }

@@ -30,7 +30,7 @@ public class AddIfMin implements Command {
             minFlat = (Flat) flatsArray[flatsArray.length - 1];
         } else {
             this.controller.addFlat(request.flat);
-            System.out.println("Flat was added to collection.");
+            return new AddIfMinResponse(null);
         }
 
         if (minFlat == null || request.flat.compareTo(minFlat) < 0) {

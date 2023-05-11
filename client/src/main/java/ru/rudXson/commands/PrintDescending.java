@@ -16,7 +16,7 @@ public class PrintDescending implements Command{
         PrintDescendingResponse response = (PrintDescendingResponse) client.sendRequestGetResponse(new PrintDescendingRequest());
         System.out.println("Elements of collection in descending order:");
         for (Flat flat : response.flats) {
-            System.out.println(flat.toString());
+            System.out.println(flat);
         }
     }
 

@@ -24,8 +24,12 @@ public class Add implements Command {
         Flat flat = new Flat();
         inManager.describeFlat(flat);
 
-        AddResponse response = (AddResponse) client.sendRequestGetResponse(new AddRequest(flat));
 
+        AddResponse response = (AddResponse) client.sendRequestGetResponse(new AddRequest(flat));
+        if (response.error != null) {
+            System.out.println(response.error);
+            return;
+        }
         System.out.println("Flat was added to collection.");
     }
 

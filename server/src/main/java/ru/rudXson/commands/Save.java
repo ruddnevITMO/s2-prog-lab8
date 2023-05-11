@@ -1,48 +1,39 @@
-/**
- * A command that saves a priority queue of flats to a file using Serializer class
- */
 package ru.rudXson.commands;
-
-import java.io.IOException;
-import java.util.Scanner;
 
 import ru.rudXson.base.CLIController;
 import ru.rudXson.base.FileValidator;
 import ru.rudXson.base.Serializer;
+import ru.rudXson.requests.Request;
+import ru.rudXson.responses.RemoveByIdResponse;
+import ru.rudXson.responses.Response;
 
 import javax.naming.NoPermissionException;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class Save implements Command {
 
     private final CLIController controller;
+    private final Scanner scanner;
 
-    /**
-     * Constructs a Save command with the given Scanner, priority queue of flats and file name.
-     *
-     * @param controller an object that holds every argument needed
-     */
-    public Save(CLIController controller) {
+
+    public Save(CLIController controller, Scanner scanner) {
         this.controller = controller;
+        this.scanner = scanner;
     }
 
-    /**
-     * Executes the Save command by serializing the priority queue of flats to a file.
-     * If there is an error writing to the file, the user will be prompted to enter a new file name.
-     *
-     * @param args the arguments to execute the command with
-     */
     @Override
-    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
+    public Response execute(Request req) {
         while (true) {
             try {
                 FileValidator.checkFile(controller.getFileName());
                 Serializer.serialize(controller.getFlats(), controller.getFileName());
                 System.out.println("Successfully saved collection to a file!");
-                break;
+                return new Response("save", null);
             } catch (NoPermissionException | IOException e) {
                 System.out.println("Error writing to file: " + e.getMessage());
                 System.out.print("Enter a new file name: ");
-                controller.setFileName(controller.getScanner().nextLine());
+                controller.setFileName(this.scanner.nextLine());
             }
         }
     }

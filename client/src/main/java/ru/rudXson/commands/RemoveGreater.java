@@ -16,14 +16,13 @@ import java.util.UUID;
 
 public class RemoveGreater implements Command {
 
-    private Scanner scanner;
 
     public RemoveGreater() {
     }
 
     @Override
     public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws IOException {
-        Scanner currScanner = this.scanner;
+        Scanner currScanner = scanner;
         if (fromExecute) currScanner = executeScanner;
         InputManager inManager = new InputManager(currScanner);
         Flat flat = new Flat();

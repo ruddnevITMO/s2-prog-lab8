@@ -19,14 +19,14 @@ public class Info implements Command {
     public Response execute(Request req) {
         PriorityQueue<Flat> flats = controller.getFlats();
 
-
         String result = "";
         result += "\tInformation about collection:\n";
-        result += "Created at " + controller.getCreationDate() + '\n';
+            result += "Created at " + this.controller.getCreationDate() + '\n';
+
         result += "Collection type is " + flats.getClass().getSimpleName() + '\n';
         result += "Amount of items stored in - " + flats.size();
 
-        return new InfoResponse(result, null);
+        return new InfoResponse(result);
     }
     @Override
     public String getDescription(){

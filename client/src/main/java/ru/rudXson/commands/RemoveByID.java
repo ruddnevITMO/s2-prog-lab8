@@ -20,6 +20,7 @@ public class RemoveByID implements Command {
         if (args.length < 2) throw new NotEnoughArgsException("ID is required");
         try {
             RemoveByIdResponse response = (RemoveByIdResponse) client.sendRequestGetResponse(new RemoveByIdRequest(UUID.fromString(args[1])));
+            if (response.error != null) System.out.println(response.error);
         } catch (IllegalArgumentException e) {
             throw new WrongArgsException("You need to supply an ID, which is an UUID");
         }

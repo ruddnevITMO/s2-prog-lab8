@@ -16,6 +16,7 @@ public class RemoveFirst implements Command {
     @Override
     public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws IOException {
         RemoveFirstResponse response = (RemoveFirstResponse) client.sendRequestGetResponse(new RemoveFirstRequest());
+        if (response.error != null) System.out.println(response.error);
     }
 
     @Override

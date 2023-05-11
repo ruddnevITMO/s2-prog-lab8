@@ -1,10 +1,9 @@
 package ru.rudXson.base;
 
 import com.google.gson.JsonSyntaxException;
-
-
-import ru.rudXson.datatype.*;
+import ru.rudXson.datatype.Flat;
 import ru.rudXson.exceptions.WrongArgsException;
+import ru.rudXson.responses.Response;
 
 import javax.naming.NoPermissionException;
 import java.io.IOException;
@@ -21,38 +20,28 @@ public class CLIController {
 
     private String fileName;
     private PriorityQueue<Flat> flats;
-    private final Scanner scanner;
     private Date creationDate;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
 
     /**
      * Constructs a CLIController object with the given command-line arguments.
      *
-     * @param args the command-line arguments
      * @throws IOException if there was an error reading the file
      * @throws NoPermissionException if the user does not have permission to access the file
      */
-    public CLIController(String[] args) throws IOException, NoPermissionException {
-        this.scanner = new Scanner(System.in);
-
-        // Check if argument is provided
-        if (args.length < 1) {
-            System.out.println("No file name provided.");
-            System.out.print("Please enter file name: ");
-            this.fileName = this.scanner.nextLine();
-        } else {
-            this.fileName = args[0];
-        }
-
+    public CLIController(String fileName) throws IOException, NoPermissionException {
+        this.fileName = fileName;
         // Check if file exists and has write access
+        Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
                 FileValidator.checkFile(this.fileName);
                 break;
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException | NoPermissionException e) {
                 System.out.println("Error: You don't have permission to access the file or it doesn't exist.");
                 System.out.print("Please enter another file name: ");
-                this.fileName = this.scanner.nextLine();
+                this.fileName = scanner.nextLine();
                 FileValidator.checkFile(this.fileName);
             }
         }
@@ -65,17 +54,17 @@ public class CLIController {
             } catch (IOException e) {
                 System.out.println("Error: Unable to read the file.");
                 System.out.print("Please enter another file name: ");
-                this.fileName = this.scanner.nextLine();
+                this.fileName = scanner.nextLine();
                 this.flats = Deserializer.deserialize(this.fileName);
             } catch (JsonSyntaxException e) {
                 System.out.println("Error: Malformed JSON file.");
                 System.out.print("Please enter another file name: ");
-                this.fileName = this.scanner.nextLine();
+                this.fileName = scanner.nextLine();
                 this.flats = Deserializer.deserialize(this.fileName);
             }
         }
+        scanner.close();
 
-        creationDate = this.flats.peek().getCreationDate();;
 
     }
 
@@ -131,6 +120,13 @@ public class CLIController {
         throw new WrongArgsException("There is no element with such UUID");
     }
 
+    public void replaceFlatById(UUID id, Flat newFlat) throws WrongArgsException {
+        newFlat.setId(id);
+        newFlat.setCreationDate(getFlatByID(id).getCreationDate());
+        flats.remove(getFlatByID(id));
+        flats.add(newFlat);
+    }
+
     /**
      * Removes the flat with the given ID from the priority queue of flats.
      *
@@ -140,14 +136,6 @@ public class CLIController {
         flats.remove(getFlatByID(id));
     }
 
-    /**
-     * Returns the scanner used for user input.
-     *
-     * @return the scanner used for user input
-     */
-    public Scanner getScanner() {
-        return this.scanner;
-    }
 
     /**
      * Returns the creation date of the flats in the format "dd.MM.yyyy HH:mm:ss".
@@ -155,10 +143,33 @@ public class CLIController {
      * @return the creation date of the flats
      */
     public String getCreationDate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        return this.creationDate.toInstant().atZone(ZoneId.systemDefault()).format(formatter);
+        if (!flats.isEmpty()) {
+            this.creationDate = this.flats.peek().getCreationDate();
+            return this.creationDate.toInstant().atZone(ZoneId.systemDefault()).format(this.formatter);
+        } else {
+            return "25th hour";
+        }
+
     }
 
+    public void save() {
+        System.out.println(new Date().toInstant().atZone(ZoneId.systemDefault()).format(this.formatter) + " | Saving...");
+
+        while (true) {
+            try {
+                FileValidator.checkFile(this.getFileName());
+                Serializer.serialize(this.getFlats(), this.getFileName());
+//                System.out.println("Successfully saved collection to a file!");
+                break;
+            } catch (NoPermissionException | IOException e) {
+                System.out.println("Error writing to file: " + e.getMessage());
+                System.out.print("Enter a new file name: ");
+                Scanner scanner = new Scanner(System.in);
+                this.setFileName(scanner.nextLine());
+                scanner.close();
+            }
+        }
+    }
 }
 
 

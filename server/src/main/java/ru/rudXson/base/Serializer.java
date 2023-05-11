@@ -23,8 +23,5 @@ public class Serializer {
         try(BufferedWriter buf = new BufferedWriter(new FileWriter(fileName))){
             gson.toJson(flats, buf);
         }
-        catch (IOException e){
-            throw new IOException();
-        }
     }
 }

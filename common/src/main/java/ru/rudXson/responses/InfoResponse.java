@@ -1,11 +1,10 @@
 package ru.rudXson.responses;
 
-
 public class InfoResponse extends Response {
   public final String infoMessage;
 
-  public InfoResponse(String infoMessage, String error) {
-    super("info", error);
+  public InfoResponse(String infoMessage) {
+    super("info", null);
     this.infoMessage = infoMessage;
   }
 }

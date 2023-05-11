@@ -1,10 +1,12 @@
 package ru.rudXson.requests;
 
 
-public class RemoveByIdRequest extends Request {
-  public final int id;
+import java.util.UUID;
 
-  public RemoveByIdRequest(int id) {
+public class RemoveByIdRequest extends Request {
+  public final UUID id;
+
+  public RemoveByIdRequest(UUID id) {
     super("remove_by_id");
     this.id = id;
   }

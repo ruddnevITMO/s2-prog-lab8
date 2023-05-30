@@ -1,7 +1,9 @@
 package ru.rudXson.datatype;
 
 
-public enum View {
+import java.io.Serializable;
+
+public enum View implements Serializable {
     STREET,
     PARK,
     NORMAL,

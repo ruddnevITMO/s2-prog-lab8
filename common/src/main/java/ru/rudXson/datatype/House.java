@@ -1,9 +1,12 @@
     package ru.rudXson.datatype;
+
+    import java.io.Serializable;
+
     /**
 
      A class to represent a house.
      */
-    public class House {
+    public class House implements Serializable {
         private String name; // The name of the house.
         private Integer year; // The year the house was built.
         private int numberOfLifts; // The number of lifts in the house.

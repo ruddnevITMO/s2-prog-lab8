@@ -1,6 +1,8 @@
 package ru.rudXson.datatype;
 
-public enum Transport {
+import java.io.Serializable;
+
+public enum Transport implements Serializable {
     FEW,
     NONE,
     NORMAL

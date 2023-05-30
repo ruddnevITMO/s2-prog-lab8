@@ -1,27 +1,25 @@
 package ru.rudXson.commands;
 
-import ru.rudXson.base.CLIController;
-import ru.rudXson.datatype.Flat;
-
-import java.util.PriorityQueue;
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.PriorityQueue;
+
+import ru.rudXson.base.Client;
+import ru.rudXson.datatype.Flat;
+import ru.rudXson.requests.AddRequest;
+import ru.rudXson.requests.ClearRequest;
+import ru.rudXson.responses.AddResponse;
+import ru.rudXson.responses.ClearResponse;
+
 
 public class Clear implements Command {
-
-    private final PriorityQueue<Flat> collection;
-
-    public Clear(CLIController controller) {
-        this.collection = controller.getFlats();
+    public Clear() {
     }
 
     @Override
-    public void execute(String[] args, boolean fromExecute, Scanner executeScanner) {
-        if (collection.isEmpty()) {
-            System.out.println("The collection is already empty.");
-            return;
-        }
-        collection.clear();
-        System.out.println("The collection has been cleared.");
+    public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws IOException {
+        ClearResponse response = (ClearResponse) client.sendRequestGetResponse(new ClearRequest());
+        System.out.println("Collection is clear now!");
     }
 
     @Override

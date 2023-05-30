@@ -8,6 +8,7 @@ import ru.rudXson.exceptions.WrongArgsException;
 import javax.naming.NoPermissionException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  * This class represents a command executor that is used to execute different commands
@@ -15,46 +16,40 @@ import java.util.HashMap;
 public class CommandExecutor {
     HashMap<String, Command> commands = new HashMap<>();
 
-    CLIController controller;
+    Scanner scanner = new Scanner(System.in);
 
-    /**
-     * Constructs a new instance of the CommandExecutor
-     * @param controller the command line interface controller to be used to execute the commands
-     */
-    public CommandExecutor(CLIController controller) {
-        this.controller = controller;
-        commands.put("help", new Help(commands));
-        commands.put("show", new Show(controller));
-        commands.put("add", new Add(controller));
-        commands.put("save", new Save(controller));
-        commands.put("update", new Update(controller));
+    public CommandExecutor() {
+        commands.put("help", new Help());
+        commands.put("show", new Show());
+        commands.put("add", new Add(scanner));
+        commands.put("update", new Update(scanner));
         commands.put("execute_script", new ExecuteScript(this));
-        commands.put("remove_by_id", new RemoveByID(controller));
-        commands.put("remove_first", new RemoveFirst(controller));
-        commands.put("add_if_min", new AddIfMin(controller));
-        commands.put("print_descending", new PrintDescending(controller));
-        commands.put("info", new Info(controller));
-        commands.put("clear", new Clear(controller));
-        commands.put("print_unique_house", new PrintUniqueHouse(controller));
+        commands.put("remove_by_id", new RemoveByID());
+        commands.put("remove_first", new RemoveFirst());
+        commands.put("add_if_min", new AddIfMin(scanner));
+        commands.put("print_descending", new PrintDescending());
+        commands.put("info", new Info());
+        commands.put("clear", new Clear());
+        commands.put("print_unique_house", new PrintUniqueHouse());
         commands.put("exit", new Exit());
-        commands.put("remove_greater", new RemoveGreater(controller));
-        commands.put("print_field_descending_transport", new PrintFieldDescendingTransport(controller));
+        commands.put("remove_greater", new RemoveGreater(scanner));
+        commands.put("print_field_descending_transport", new PrintFieldDescendingTransport());
     }
 
     /**
      * Starts the interactive mode for the user to input commands
      */
-    public void startInteractiveMode(){
+    public void startInteractiveMode(Client client){
         System.out.println("Entered the interactive mode!");
         while (true) {
             System.out.print("\u001B[36mEnter command: \u001B[0m");
-            String [] line = controller.getScanner().nextLine().toLowerCase().strip().split(" ");
+            String[] line = this.scanner.nextLine().toLowerCase().strip().split(" ");
             if (!commands.containsKey(line[0])){
                 System.out.println("This command doesn't exist");
                 continue;
             }
             try {
-                commands.get(line[0]).execute(line, false, null);
+                commands.get(line[0]).execute(line, client, false, null);
             } catch (NotEnoughArgsException |  NoPermissionException | WrongArgsException | IOException e) {
                 System.out.println("An error occurred: " + e.getMessage());
             } catch (ExitException e) {

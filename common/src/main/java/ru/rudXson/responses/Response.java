@@ -2,7 +2,7 @@ package ru.rudXson.responses;
 
 import java.io.Serializable;
 
-public class Response implements Serializable {
+public abstract class Response implements Serializable {
     public final String name;
     public final String error;
 

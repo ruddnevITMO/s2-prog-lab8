@@ -1,15 +1,15 @@
 package ru.rudXson.commands;
 
-import ru.rudXson.base.CLIController;
+import ru.rudXson.base.SQLController;
 import ru.rudXson.requests.Request;
 import ru.rudXson.responses.RemoveFirstResponse;
 import ru.rudXson.responses.Response;
 
 
 public class RemoveFirst implements Command {
-    private final CLIController controller;
+    private final SQLController controller;
 
-    public RemoveFirst(CLIController controller) {
+    public RemoveFirst(SQLController controller) {
         this.controller = controller;
     }
 

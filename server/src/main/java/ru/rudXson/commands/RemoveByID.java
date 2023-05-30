@@ -1,6 +1,6 @@
 package ru.rudXson.commands;
 
-import ru.rudXson.base.CLIController;
+import ru.rudXson.base.SQLController;
 import ru.rudXson.exceptions.WrongArgsException;
 import ru.rudXson.requests.RemoveByIdRequest;
 import ru.rudXson.requests.Request;
@@ -8,9 +8,9 @@ import ru.rudXson.responses.RemoveByIdResponse;
 import ru.rudXson.responses.Response;
 
 public class RemoveByID implements Command {
-    private final CLIController controller;
+    private final SQLController controller;
 
-    public RemoveByID(CLIController controller) {
+    public RemoveByID(SQLController controller) {
         this.controller = controller;
     }
 

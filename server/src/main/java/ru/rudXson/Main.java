@@ -30,7 +30,7 @@ public class Main {
             fileName = args[0];
         }
 
-        CLIController controller = new CLIController(fileName, scanner);
+        SQLController controller = new SQLController(fileName, scanner);
         CommandExecutor go = new CommandExecutor(controller, scanner);
         CommandHandler handler = new CommandHandler(go);
 

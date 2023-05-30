@@ -11,13 +11,13 @@ import java.util.Scanner;
 public class CommandExecutor {
     HashMap<String, Command> commands = new HashMap<>();
 
-    CLIController controller;
+    SQLController controller;
 
     /**
      * Constructs a new instance of the CommandExecutor
      * @param controller the command line interface controller to be used to execute the commands
      */
-    public CommandExecutor(CLIController controller, Scanner scanner) {
+    public CommandExecutor(SQLController controller, Scanner scanner) {
         this.controller = controller;
         commands.put("help", new Help(commands));
         commands.put("show", new Show(controller));

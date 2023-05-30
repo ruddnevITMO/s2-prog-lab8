@@ -1,17 +1,15 @@
 package ru.rudXson.commands;
 
-import ru.rudXson.base.CLIController;
+import ru.rudXson.base.SQLController;
 import ru.rudXson.requests.AddRequest;
 import ru.rudXson.requests.Request;
 import ru.rudXson.responses.AddResponse;
 import ru.rudXson.responses.Response;
 
-import java.util.Scanner;
-
 public class Add implements Command {
-    private final CLIController controller;
+    private final SQLController controller;
 
-    public Add(CLIController controller) {
+    public Add(SQLController controller) {
         this.controller = controller;
     }
 

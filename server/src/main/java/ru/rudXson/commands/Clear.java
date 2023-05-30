@@ -1,6 +1,6 @@
 package ru.rudXson.commands;
 
-import ru.rudXson.base.CLIController;
+import ru.rudXson.base.SQLController;
 import ru.rudXson.datatype.Flat;
 import ru.rudXson.requests.Request;
 import ru.rudXson.responses.ClearResponse;
@@ -12,7 +12,7 @@ public class Clear implements Command {
 
     private final PriorityQueue<Flat> collection;
 
-    public Clear(CLIController controller) {
+    public Clear(SQLController controller) {
         this.collection = controller.getFlats();
     }
 

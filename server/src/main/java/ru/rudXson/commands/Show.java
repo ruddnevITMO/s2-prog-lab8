@@ -1,14 +1,14 @@
 package ru.rudXson.commands;
 
-import ru.rudXson.base.CLIController;
+import ru.rudXson.base.SQLController;
 import ru.rudXson.requests.Request;
 import ru.rudXson.responses.Response;
 import ru.rudXson.responses.ShowResponse;
 
 public class Show implements Command {
-    private final CLIController controller;
+    private final SQLController controller;
 
-    public Show(CLIController controller) {
+    public Show(SQLController controller) {
         this.controller = controller;
     }
 

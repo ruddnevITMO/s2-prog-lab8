@@ -1,6 +1,6 @@
 package ru.rudXson.commands;
 
-import ru.rudXson.base.CLIController;
+import ru.rudXson.base.SQLController;
 import ru.rudXson.datatype.Flat;
 import ru.rudXson.requests.Request;
 import ru.rudXson.responses.InfoResponse;
@@ -9,9 +9,9 @@ import ru.rudXson.responses.Response;
 import java.util.PriorityQueue;
 
 public class Info implements Command {
-    private final CLIController controller;
+    private final SQLController controller;
 
-    public Info(CLIController controller) {
+    public Info(SQLController controller) {
         this.controller = controller;
     }
 

@@ -1,6 +1,6 @@
 package ru.rudXson.commands;
 
-import ru.rudXson.base.CLIController;
+import ru.rudXson.base.SQLController;
 import ru.rudXson.datatype.Flat;
 import ru.rudXson.datatype.Transport;
 import ru.rudXson.requests.Request;
@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class PrintFieldDescendingTransport implements Command {
-    private final CLIController controller;
-    public PrintFieldDescendingTransport(CLIController controller){
+    private final SQLController controller;
+    public PrintFieldDescendingTransport(SQLController controller){
         this.controller = controller;
     }
     @Override

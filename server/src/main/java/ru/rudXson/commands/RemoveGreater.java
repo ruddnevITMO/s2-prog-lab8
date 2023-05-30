@@ -1,7 +1,7 @@
 
 package ru.rudXson.commands;
 
-import ru.rudXson.base.CLIController;
+import ru.rudXson.base.SQLController;
 import ru.rudXson.datatype.Flat;
 import ru.rudXson.requests.RemoveGreaterRequest;
 import ru.rudXson.requests.Request;
@@ -9,9 +9,9 @@ import ru.rudXson.responses.RemoveGreaterResponse;
 import ru.rudXson.responses.Response;
 
 public class RemoveGreater implements Command {
-    private final CLIController controller;
+    private final SQLController controller;
 
-    public RemoveGreater(CLIController controller) {
+    public RemoveGreater(SQLController controller) {
         this.controller = controller;
     }
 

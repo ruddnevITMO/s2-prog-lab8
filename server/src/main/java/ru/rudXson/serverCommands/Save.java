@@ -1,10 +1,8 @@
 package ru.rudXson.serverCommands;
 
-import ru.rudXson.base.CLIController;
+import ru.rudXson.base.SQLController;
 import ru.rudXson.base.FileValidator;
 import ru.rudXson.base.Serializer;
-import ru.rudXson.requests.Request;
-import ru.rudXson.responses.Response;
 
 import javax.naming.NoPermissionException;
 import java.io.IOException;
@@ -12,11 +10,11 @@ import java.util.Scanner;
 
 public class Save implements Command {
 
-    private final CLIController controller;
+    private final SQLController controller;
     private final Scanner scanner;
 
 
-    public Save(CLIController controller, Scanner scanner) {
+    public Save(SQLController controller, Scanner scanner) {
         this.controller = controller;
         this.scanner = scanner;
     }

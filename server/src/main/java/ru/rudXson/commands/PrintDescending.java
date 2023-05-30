@@ -1,6 +1,6 @@
 package ru.rudXson.commands;
 
-import ru.rudXson.base.CLIController;
+import ru.rudXson.base.SQLController;
 import ru.rudXson.datatype.Flat;
 import ru.rudXson.requests.Request;
 import ru.rudXson.responses.PrintDescendingResponse;
@@ -10,9 +10,9 @@ import java.util.*;
 
 public class PrintDescending implements Command {
 
-    private final CLIController controller;
+    private final SQLController controller;
 
-    public PrintDescending(CLIController controller) {
+    public PrintDescending(SQLController controller) {
         this.controller = controller;
     }
 

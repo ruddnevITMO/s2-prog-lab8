@@ -1,18 +1,17 @@
 package ru.rudXson.commands;
 
-import ru.rudXson.base.CLIController;
+import ru.rudXson.base.SQLController;
 import ru.rudXson.datatype.Flat;
 import ru.rudXson.requests.AddIfMinRequest;
-import ru.rudXson.requests.AddRequest;
 import ru.rudXson.requests.Request;
 import ru.rudXson.responses.AddIfMinResponse;
 import ru.rudXson.responses.Response;
 
 
 public class AddIfMin implements Command {
-    private final CLIController controller;
+    private final SQLController controller;
 
-    public AddIfMin(CLIController controller) {
+    public AddIfMin(SQLController controller) {
         this.controller = controller;
     }
 

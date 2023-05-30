@@ -18,7 +18,7 @@ public class ServerCommandExecutor implements Runnable {
 
     Scanner scanner = new Scanner(System.in);
 
-    public ServerCommandExecutor(CLIController controller) {
+    public ServerCommandExecutor(SQLController controller) {
         commands.put("exit", new Exit());
         commands.put("save", new Save(controller, scanner));
     }

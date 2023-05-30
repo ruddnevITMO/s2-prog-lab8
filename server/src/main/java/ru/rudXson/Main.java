@@ -30,7 +30,7 @@ public class Main {
             fileName = args[0];
         }
 
-        SQLController controller = new SQLController(fileName, scanner);
+        SQLController controller = new SQLController("jdbc:postgresql://localhost/lab7", "labworker", "asd");
         CommandExecutor go = new CommandExecutor(controller, scanner);
         CommandHandler handler = new CommandHandler(go);
 

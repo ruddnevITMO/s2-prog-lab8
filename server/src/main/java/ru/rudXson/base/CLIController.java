@@ -3,11 +3,9 @@ package ru.rudXson.base;
 import com.google.gson.JsonSyntaxException;
 import ru.rudXson.datatype.Flat;
 import ru.rudXson.exceptions.WrongArgsException;
-import ru.rudXson.responses.Response;
 
 import javax.naming.NoPermissionException;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -30,10 +28,9 @@ public class CLIController {
      * @throws IOException if there was an error reading the file
      * @throws NoPermissionException if the user does not have permission to access the file
      */
-    public CLIController(String fileName) throws IOException, NoPermissionException {
+    public CLIController(String fileName, Scanner scanner) throws IOException, NoPermissionException {
         this.fileName = fileName;
         // Check if file exists and has write access
-        Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
                 FileValidator.checkFile(this.fileName);
@@ -42,7 +39,6 @@ public class CLIController {
                 System.out.println("Error: You don't have permission to access the file or it doesn't exist.");
                 System.out.print("Please enter another file name: ");
                 this.fileName = scanner.nextLine();
-                FileValidator.checkFile(this.fileName);
             }
         }
 
@@ -63,7 +59,7 @@ public class CLIController {
                 this.flats = Deserializer.deserialize(this.fileName);
             }
         }
-        scanner.close();
+//        scanner.close();
 
 
     }
@@ -153,8 +149,7 @@ public class CLIController {
     }
 
     public void save() {
-        System.out.println(new Date().toInstant().atZone(ZoneId.systemDefault()).format(this.formatter) + " | Saving...");
-
+//        System.out.println(new Date().toInstant().atZone(ZoneId.systemDefault()).format(this.formatter) + " | Saving...");
         while (true) {
             try {
                 FileValidator.checkFile(this.getFileName());
@@ -166,7 +161,7 @@ public class CLIController {
                 System.out.print("Enter a new file name: ");
                 Scanner scanner = new Scanner(System.in);
                 this.setFileName(scanner.nextLine());
-                scanner.close();
+//                scanner.close();
             }
         }
     }

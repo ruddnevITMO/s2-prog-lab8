@@ -1,13 +1,7 @@
 package ru.rudXson.base;
 
-import com.sun.net.httpserver.Request;
 import ru.rudXson.commands.*;
-import ru.rudXson.exceptions.ExitException;
-import ru.rudXson.exceptions.WrongArgsException;
-import ru.rudXson.responses.Response;
 
-import javax.naming.NoPermissionException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 

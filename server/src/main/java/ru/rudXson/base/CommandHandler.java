@@ -15,7 +15,7 @@ public class CommandHandler {
 
     public Response handle(Request request) throws ExitException {
         Command command = executor.getCommand(request.name);
-        if (command == null) return new ErrorResponse(request.name);
+        if (command == null) return new ErrorResponse("No such command!");
         return command.execute(request);
     }
 }

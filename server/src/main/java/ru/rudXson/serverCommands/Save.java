@@ -1,10 +1,9 @@
-package ru.rudXson.commands;
+package ru.rudXson.serverCommands;
 
 import ru.rudXson.base.CLIController;
 import ru.rudXson.base.FileValidator;
 import ru.rudXson.base.Serializer;
 import ru.rudXson.requests.Request;
-import ru.rudXson.responses.RemoveByIdResponse;
 import ru.rudXson.responses.Response;
 
 import javax.naming.NoPermissionException;
@@ -22,14 +21,13 @@ public class Save implements Command {
         this.scanner = scanner;
     }
 
-    @Override
-    public Response execute(Request req) {
+    public void execute(String[] args) {
         while (true) {
             try {
                 FileValidator.checkFile(controller.getFileName());
                 Serializer.serialize(controller.getFlats(), controller.getFileName());
                 System.out.println("Successfully saved collection to a file!");
-                return new Response("save", null);
+                break;
             } catch (NoPermissionException | IOException e) {
                 System.out.println("Error writing to file: " + e.getMessage());
                 System.out.print("Enter a new file name: ");

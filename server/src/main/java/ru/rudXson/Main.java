@@ -30,20 +30,21 @@ public class Main {
             fileName = args[0];
         }
 
-
-        CLIController controller = new CLIController(fileName);
+        CLIController controller = new CLIController(fileName, scanner);
         CommandExecutor go = new CommandExecutor(controller, scanner);
         CommandHandler handler = new CommandHandler(go);
 
         try {
-            var server = new ServerDatagram(new InetSocketAddress(InetAddress.getLocalHost(), 1488), handler);
-            server.runAfterCommand(controller::save);
+            Runnable runnable = new ServerCommandExecutor(controller);
+            Thread thread = new Thread(runnable);
+            thread.start();
+
+            var server = new Server(new InetSocketAddress(InetAddress.getLocalHost(), 1488), handler);
             server.run();
         } catch (SocketException e) {
             System.out.println("Случилась ошибка сокета");
         } catch (UnknownHostException e) {
             System.out.println("Неизвестный хост");
         }
-
     }
 }

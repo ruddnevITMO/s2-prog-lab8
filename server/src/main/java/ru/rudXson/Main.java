@@ -1,41 +1,63 @@
 package ru.rudXson;
 
 import ru.rudXson.base.*;
-import ru.rudXson.exceptions.ExitException;
 
-import javax.naming.NoPermissionException;
-import java.io.*;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
     /**
      * Main method that is responsible for running the program.
      *
-     * @param args Command line arguments that specify the name of the input file.
-     * @throws IOException If there is an error reading or writing to the file.
+     * @param args Command line arguments that specify the credentials for the PostgreSQL database.
      */
-    public static void main(String[] args) throws NoPermissionException, IOException, ExitException {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String fileName;
-        if (args.length < 1) {
-            System.out.println("No file name provided.");
-            System.out.print("Please enter file name: ");
-            fileName = scanner.nextLine();
+        SQLController controller;
+        String url;
+        String user;
+        String password;
+
+        if (args.length < 4) {
+            url = args[0];
+            user = args[1];
+            password = args[2];
         } else {
-            fileName = args[0];
+            System.out.println("Arguments are wrong.");
+            System.out.print("Please enter JDBC url: ");
+            url = scanner.nextLine();
+            System.out.print("Please enter db username: ");
+            user = scanner.nextLine();
+            System.out.print("Please enter db password: ");
+            password = scanner.nextLine();
         }
 
-        SQLController controller = new SQLController("jdbc:postgresql://localhost/lab7", "labworker", "asd");
+
+        while (true) {
+            try {
+                controller = new SQLController(url, user, password);
+                break;
+            } catch (SQLException e) {
+                System.out.println("Wrong credentials. Try again.");
+                System.out.print("Please enter JDBC url: ");
+                url = scanner.nextLine();
+                System.out.print("Please enter db username: ");
+                user = scanner.nextLine();
+                System.out.print("Please enter db password: ");
+                password = scanner.nextLine();
+            }
+        }
+
         CommandExecutor go = new CommandExecutor(controller, scanner);
         CommandHandler handler = new CommandHandler(go);
 
         try {
-            Runnable runnable = new ServerCommandExecutor(controller);
+            Runnable runnable = new ServerCommandExecutor();
             Thread thread = new Thread(runnable);
             thread.start();
 

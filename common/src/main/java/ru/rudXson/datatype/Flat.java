@@ -10,7 +10,7 @@ public class Flat implements Comparable<Flat>, Serializable {
     private UUID id; // Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; // Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; // Поле не может быть null
-    private Date creationDate; // Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    private java.util.Date creationDate; // Поле не может быть null, Значение этого поля должно генерироваться автоматически
     private float area; // Значение поля должно быть больше 0
     private long numberOfRooms; // Значение поля должно быть больше 0
     private Furnish furnish; // Поле может быть null
@@ -19,12 +19,16 @@ public class Flat implements Comparable<Flat>, Serializable {
     private House house; // Поле может быть null
 
     public Flat(){
-        setId();
         setCreationDate();
     }
 
+    public Flat(UUID id, String name, Coordinates coordinates, Date creationDate, float area, long numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
+        this(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
+        setId(id);
+        setCreationDate(creationDate);
+    }
+
     public Flat(String name, Coordinates coordinates, float area, long numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
-        setId();
         setName(name);
         setCoordinates(coordinates);
         setCreationDate();
@@ -74,10 +78,6 @@ public class Flat implements Comparable<Flat>, Serializable {
 
     public House getHouse() {
         return house;
-    }
-
-    private void setId() {
-        this.id = UUID.randomUUID();
     }
 
     public void setId(UUID id) {

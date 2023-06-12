@@ -8,18 +8,9 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Info implements Command{
-
-    public Info() {
-
-    }
-
     @Override
     public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws IOException {
         System.out.println(((InfoResponse) client.sendRequestGetResponse(new InfoRequest())).infoMessage);
-    }
-    @Override
-    public String getDescription(){
-        return "Shows info about collection";
     }
 }
 

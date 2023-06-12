@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class PrintUniqueHouse implements Command {
-    public PrintUniqueHouse() {
-    }
     @Override
     public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws NoPermissionException, IOException {
         PrintUniqueHouseResponse response = (PrintUniqueHouseResponse) client.sendRequestGetResponse(new PrintUniqueHouseRequest());
@@ -22,8 +20,5 @@ public class PrintUniqueHouse implements Command {
         }
     }
 
-    @Override
-    public String getDescription() {
-        return "Prints unique values of the house field for all elements in the collection.";
-    }
+
 }

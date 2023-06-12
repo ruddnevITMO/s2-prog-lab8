@@ -8,9 +8,7 @@ import ru.rudXson.responses.PrintDescendingResponse;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class PrintDescending implements Command{
-
-
+public class PrintDescending implements Command {
     @Override
     public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws IOException {
         PrintDescendingResponse response = (PrintDescendingResponse) client.sendRequestGetResponse(new PrintDescendingRequest());
@@ -18,10 +16,5 @@ public class PrintDescending implements Command{
         for (Flat flat : response.flats) {
             System.out.println(flat);
         }
-    }
-
-    @Override
-    public String getDescription(){
-        return "Sorts the elements in descending order";
     }
 }

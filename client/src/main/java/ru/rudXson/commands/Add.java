@@ -24,7 +24,6 @@ public class Add implements Command {
         Flat flat = new Flat();
         inManager.describeFlat(flat);
 
-
         AddResponse response = (AddResponse) client.sendRequestGetResponse(new AddRequest(flat));
         if (response.error != null) {
             System.out.println(response.error);
@@ -32,12 +31,4 @@ public class Add implements Command {
         }
         System.out.println("Flat was added to collection.");
     }
-
-
-    @Override
-    public String getDescription() {
-        return "Adds an element to the collection";
-    }
-
-
 }

@@ -9,18 +9,10 @@ import java.util.Scanner;
 
 
 public class RemoveFirst implements Command {
-
-    public RemoveFirst() {
-    }
-
     @Override
     public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws IOException {
         RemoveFirstResponse response = (RemoveFirstResponse) client.sendRequestGetResponse(new RemoveFirstRequest());
         if (response.error != null) System.out.println(response.error);
     }
 
-    @Override
-    public String getDescription() {
-        return "Removes first element of sorted array";
-    }
 }

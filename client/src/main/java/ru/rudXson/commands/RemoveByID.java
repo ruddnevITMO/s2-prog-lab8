@@ -11,10 +11,6 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class RemoveByID implements Command {
-
-    public RemoveByID() {
-    }
-
     @Override
     public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws NotEnoughArgsException, WrongArgsException, IOException {
         if (args.length < 2) throw new NotEnoughArgsException("ID is required");
@@ -24,10 +20,5 @@ public class RemoveByID implements Command {
         } catch (IllegalArgumentException e) {
             throw new WrongArgsException("You need to supply an ID, which is an UUID");
         }
-    }
-
-    @Override
-    public String getDescription() {
-        return "Removes element with ID specified";
     }
 }

@@ -8,18 +8,10 @@ import ru.rudXson.responses.ShowResponse;
 
 
 public class Show implements Command {
-
-    public Show() {
-    }
-
     @Override
     public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws IOException {
         ShowResponse response = (ShowResponse) client.sendRequestGetResponse(new ShowRequest());
         System.out.println(response.flats);
     }
 
-    @Override
-    public String getDescription() {
-        return "Shows all collection items";
-    }
 }

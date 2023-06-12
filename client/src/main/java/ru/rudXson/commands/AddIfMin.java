@@ -8,18 +8,12 @@ import ru.rudXson.base.InputManager;
 import ru.rudXson.datatype.Flat;
 import ru.rudXson.requests.AddIfMinRequest;
 import ru.rudXson.responses.AddIfMinResponse;
-import ru.rudXson.responses.ErrorResponse;
 
 public class AddIfMin implements Command {
     private final Scanner scanner;
 
     public AddIfMin(Scanner scanner) {
         this.scanner = scanner;
-    }
-
-    @Override
-    public String getDescription() {
-        return "Adds element if it is smaller than the smallest element of sorted array";
     }
 
     @Override

@@ -36,14 +36,10 @@ public class Update implements Command {
         InputManager inManager = new InputManager(currScanner);
         inManager.describeFlat(flat);
 
-
         UpdateResponse response = (UpdateResponse) client.sendRequestGetResponse(new UpdateRequest(id, flat));
+
         if (response.error != null) System.out.println(response.error);
 
     }
 
-    @Override
-    public String getDescription() {
-        return "Updates element with ID specified";
-    }
 }

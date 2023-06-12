@@ -81,16 +81,6 @@ public class ExecuteScript implements Command {
             } catch (ExitException e) {
                 break;
             }
-
-
         }
-
     }
-
-
-    @Override
-    public String getDescription() {
-        return "Runs commands from a file, line by line";
-    }
-
 }

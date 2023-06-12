@@ -54,7 +54,7 @@ public class SQLController {
         lock.lock();
 
         this.flats.clear();
-        String query = "SELECT * FROM flats";
+        String query = "SELECT *, (SELECT username FROM users WHERE id=created_by) FROM flats";
         try (Statement statement = this.connection.createStatement()) {
             ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
@@ -69,7 +69,7 @@ public class SQLController {
                 }
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssX");
                 Date creationDate = dateFormat.parse(rs.getString("creation_date"));
-                // String createdBy = rs.getString("created_by");
+                String createdBy = rs.getString("username");
                 float area = rs.getFloat("coordinates_id");
                 int numberOfRooms = rs.getInt("number_of_rooms");
 
@@ -96,7 +96,7 @@ public class SQLController {
                 while (housesResult.next()) {
                     house = new House(housesResult.getString("name"), housesResult.getInt("year"), housesResult.getInt("number_of_lifts"));
                 }
-                Flat flat = new Flat(id, name, coordinates, creationDate, area, numberOfRooms, furnish, view, transport, house);
+                Flat flat = new Flat(createdBy, id, name, coordinates, creationDate, area, numberOfRooms, furnish, view, transport, house);
 
                 this.flats.add(flat);
             }
@@ -114,7 +114,7 @@ public class SQLController {
      *
      * @param flat the flat to add
      */
-    public void addFlat(Flat flat) {
+    public void addFlat(Flat flat, String username) {
         lock.lock();
 
         int coordinatesId = 0;
@@ -158,13 +158,13 @@ public class SQLController {
                 "('" + flat.getName() +
                 "', " + coordinatesId +
                 ", '" + flat.getCreationDate() +
-                "', '" + "1" +
-                "', " + flat.getArea() +
+                "', (select id from users where username='" + username + "')" +
+                ", " + flat.getArea() +
                 ", " + flat.getNumberOfRooms() +
                 ", " + flat.getFurnish() +
                 ", " + flat.getView() +
-                ", '" + flat.getTransport() +
-                "', " + houseId +
+                ", " + flat.getTransport() +
+                ", " + houseId +
                 ") RETURNING id";
         try (Statement statement = this.connection.createStatement()) {
             ResultSet rs = statement.executeQuery(query);
@@ -175,6 +175,7 @@ public class SQLController {
             System.out.println(e.getMessage());
         }
 
+        flats.add(flat);
 
         lock.unlock();
     }
@@ -186,6 +187,14 @@ public class SQLController {
      */
     public PriorityQueue<Flat> getFlats() {
         return flats;
+    }
+
+    public PriorityQueue<Flat> getSelfFlats(String username) {
+        PriorityQueue<Flat> selfFlats = new PriorityQueue<>();
+        for (Flat flat : flats) {
+            if (Objects.equals(flat.getCreatedBy(), username)) selfFlats.add(flat);
+        }
+        return selfFlats;
     }
 
     /**
@@ -203,22 +212,26 @@ public class SQLController {
         throw new WrongArgsException("There is no element with such UUID");
     }
 
-    public void replaceFlatById(UUID id, Flat newFlat) throws WrongArgsException {
+    public void replaceFlatById(UUID id, Flat newFlat, String username) throws WrongArgsException, SQLException {
         lock.lock();
 
+        newFlat.setCreatedBy(username);
         newFlat.setId(id);
         newFlat.setCreationDate(getFlatByID(id).getCreationDate());
         int coordinatesId = 0;
         int houseId = 0;
 
-        try (Statement statement = this.connection.createStatement()) {
-            ResultSet rs = statement.executeQuery("SELECT * FROM flats");
-            while (rs.next()) {
+        Statement statement;
+        statement = this.connection.createStatement();
+        ResultSet rs = statement.executeQuery("SELECT coordinates_id, house_id FROM flats WHERE id='" + id + "' AND CREATED_BY=(SELECT id FROM users WHERE username='" + username + "')");
+
+        if (!rs.next()) {
+            System.out.println("Something has gone wrong with local collection");
+        } else {
+            do {
                 houseId = rs.getInt("house_id");
                 coordinatesId = rs.getInt("coordinates_id");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            } while (rs.next());
         }
 
 
@@ -226,37 +239,27 @@ public class SQLController {
                 " x=" + newFlat.getCoordinates().getX() +
                 ", y=" + newFlat.getCoordinates().getY() +
                 " WHERE id=" + coordinatesId;
-        try (Statement statement = this.connection.createStatement()) {
-            statement.executeUpdate(coordinatesQuery);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        statement = this.connection.createStatement();
+        statement.executeUpdate(coordinatesQuery);
 
         String housesQuery = "UPDATE houses SET" +
                 " name='" + newFlat.getHouse().getName() +
                 "', year=" + newFlat.getHouse().getYear() +
                 ", number_of_lifts=" + newFlat.getHouse().getNumberOfLifts() +
                 " WHERE id=" + houseId;
-        try (Statement statement = this.connection.createStatement()) {
-            statement.executeUpdate(housesQuery);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        statement = this.connection.createStatement();
+        statement.executeUpdate(housesQuery);
 
         String query = "UPDATE flats SET" +
                 " name='" + newFlat.getName() +
-                "', created_by=" + "1" +
-                ", area=" + newFlat.getArea() +
+                "', area=" + newFlat.getArea() +
                 ", number_of_rooms=" + newFlat.getNumberOfRooms() +
                 ", furnish=" + newFlat.getFurnish().toString() +
                 ", view=" + newFlat.getView().toString() +
-                ", transport='" + newFlat.getTransport() +
-                "' WHERE id='" + newFlat.getId() + "'";
-        try (Statement statement = this.connection.createStatement()) {
-            statement.executeUpdate(query);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+                ", transport=" + newFlat.getTransport() +
+                " WHERE id='" + newFlat.getId() + "'";
+        statement = this.connection.createStatement();
+        statement.executeUpdate(query);
 
 
         flats.remove(getFlatByID(id));
@@ -270,32 +273,54 @@ public class SQLController {
      *
      * @param id the ID of the flat to remove
      */
-    public void removeFlatByID(UUID id) throws WrongArgsException {
+    public void removeFlatByID(UUID id, String username) throws WrongArgsException {
         lock.lock();
+        String coordinates_id = null;
+        String house_id = null;
 
         String query = "DELETE FROM flats" +
-                " WHERE id='" + id + "'";
+                " WHERE id='" + id +
+                "' AND created_by=(SELECT id FROM users WHERE username='" + username + "') RETURNING coordinates_id, house_id";
         try (Statement statement = this.connection.createStatement()) {
-            statement.executeUpdate(query);
+            ResultSet rs = statement.executeQuery(query);
+            rs.next();
+            coordinates_id = rs.getString("coordinates_id");
+            house_id = rs.getString("house_id");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        try (Statement statement = this.connection.createStatement()) {
+            statement.executeUpdate("DELETE FROM coordinates WHERE id='" + coordinates_id + "'");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try (Statement statement = this.connection.createStatement()) {
+            statement.executeUpdate("DELETE FROM houses WHERE id='" + house_id + "'");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
         flats.remove(getFlatByID(id));
 
         lock.unlock();
     }
 
 
-    public void clearCollection() {
+    public void clearCollection(String username) {
         lock.lock();
 
-        String query = "TRUNCATE TABLE flats, coordinates, houses";
+        String query = "SELECT id FROM flats WHERE created_by=(SELECT id FROM users WHERE username='" + username + "')";
         try (Statement statement = this.connection.createStatement()) {
-            statement.executeUpdate(query);
-        } catch (SQLException e) {
+            ResultSet rs = statement.executeQuery(query);
+            while (rs.next()) {
+                removeFlatByID(UUID.fromString(rs.getString("id")), username);
+            }
+        } catch (SQLException | WrongArgsException e) {
             System.out.println(e.getMessage());
         }
-        if (!flats.isEmpty()) flats.clear();
+        fetchFlats();
 
         lock.unlock();
     }
@@ -340,7 +365,6 @@ public class SQLController {
         try (Statement statement = this.connection.createStatement()) {
             statement.executeUpdate(query);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
             return new RegisterResponse("This username already exists.");
         }
 

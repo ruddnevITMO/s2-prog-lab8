@@ -16,7 +16,7 @@ public class Add implements Command {
     @Override
     public Response execute(Request req) {
         AddRequest request = (AddRequest) req;
-        this.controller.addFlat(request.flat);
+        this.controller.addFlat(request.flat, req.getUsername());
         return new AddResponse("Element added successfully");
     }
 

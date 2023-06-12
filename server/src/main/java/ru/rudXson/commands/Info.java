@@ -24,7 +24,8 @@ public class Info implements Command {
             result += "Created at " + this.controller.getCreationDate() + '\n';
 
         result += "Collection type is " + flats.getClass().getSimpleName() + '\n';
-        result += "Amount of items stored in - " + flats.size();
+        result += "Amount of items stored in - " + flats.size() + '\n';
+        result += "Amount of items created by you - " + controller.getSelfFlats(req.getUsername()).size();
 
         return new InfoResponse(result);
     }

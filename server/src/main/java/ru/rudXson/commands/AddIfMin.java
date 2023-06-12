@@ -24,17 +24,17 @@ public class AddIfMin implements Command {
     public Response execute(Request req) {
         AddIfMinRequest request = (AddIfMinRequest) req;
 
-        Object[] flatsArray = controller.getFlats().toArray();
-        Flat minFlat = null;
+        Object[] flatsArray = controller.getSelfFlats(req.getUsername()).toArray();
+        Flat minFlat;
         if (flatsArray.length > 0) {
             minFlat = (Flat) flatsArray[flatsArray.length - 1];
         } else {
-            this.controller.addFlat(request.flat);
+            this.controller.addFlat(request.flat, req.getUsername());
             return new AddIfMinResponse(null);
         }
 
         if (minFlat == null || request.flat.compareTo(minFlat) < 0) {
-            this.controller.addFlat(request.flat);
+            this.controller.addFlat(request.flat, req.getUsername());
             return new AddIfMinResponse(null);
         } else {
             return new AddIfMinResponse("Flat was not added to collection. Its value is greater than or equal to the minimum value in the collection.");

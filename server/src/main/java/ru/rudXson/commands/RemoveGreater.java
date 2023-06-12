@@ -22,10 +22,10 @@ public class RemoveGreater implements Command {
         RemoveGreaterRequest request = (RemoveGreaterRequest) req;
         Flat mainFlat = request.flat;
 
-        for (Flat flat : controller.getFlats()) {
+        for (Flat flat : controller.getSelfFlats(req.getUsername())) {
             if (mainFlat.compareTo(flat) > 0) {
                 try {
-                    controller.removeFlatByID(flat.getId());
+                    controller.removeFlatByID(flat.getId(), req.getUsername());
                 } catch (WrongArgsException ignored) {
                 }
             }

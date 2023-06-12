@@ -18,7 +18,7 @@ public class RemoveFirst implements Command {
     public Response execute(Request req) {
         if (controller.getFlats().isEmpty()) return new RemoveFirstResponse("Already empty!");
         try {
-            controller.removeFlatByID(controller.getFlats().peek().getId());
+            controller.removeFlatByID(controller.getSelfFlats(req.getUsername()).peek().getId(), req.getUsername());
         } catch (WrongArgsException ignored) {}
         return new RemoveFirstResponse(null);
     }

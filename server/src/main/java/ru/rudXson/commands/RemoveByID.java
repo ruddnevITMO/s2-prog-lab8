@@ -17,7 +17,7 @@ public class RemoveByID implements Command {
     @Override
     public Response execute(Request req) {
         try {
-            controller.removeFlatByID(((RemoveByIdRequest) req).id);
+            controller.removeFlatByID(((RemoveByIdRequest) req).id, req.getUsername());
             return new RemoveByIdResponse(null);
         } catch (WrongArgsException e) {
             return new RemoveByIdResponse(e.getMessage());

@@ -16,7 +16,7 @@ public class Clear implements Command {
 
     @Override
     public Response execute(Request req) {
-        controller.clearCollection();
+        controller.clearCollection(req.getUsername());
         return new ClearResponse(null);
     }
 

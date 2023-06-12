@@ -1,6 +1,8 @@
 package ru.rudXson.base;
 
 import ru.rudXson.commands.*;
+import ru.rudXson.requests.Request;
+import ru.rudXson.responses.Response;
 
 import java.util.HashMap;
 
@@ -31,11 +33,19 @@ public class CommandExecutor {
         commands.put("info", new Info(controller));
         commands.put("clear", new Clear(controller));
         commands.put("print_unique_house", new PrintUniqueHouse(controller));
-        commands.put("exit", new Exit());
         commands.put("remove_greater", new RemoveGreater(controller));
         commands.put("print_field_descending_transport", new PrintFieldDescendingTransport(controller));
     }
 
+
+    public Response execute(Request request) {
+        Command command = getCommand(request.name);
+//        if (command == null) return new ErrorResponse("No such command!");
+//        String[] loginCommands = new String[] {"login", "register"};
+//        if (!Arrays.asList(loginCommands).contains(request.name))
+//            if (executor.controller.verifyCreds(request.getUsername(), request.getPassword()).error != null) return new ErrorResponse("Wrong password. Try again.");
+        return command.execute(request);
+    }
 
     /**
      * Returns the command object for the given command name

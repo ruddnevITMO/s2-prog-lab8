@@ -11,6 +11,8 @@ public class Flat implements Comparable<Flat>, Serializable {
     private String name; // Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; // Поле не может быть null
     private java.util.Date creationDate; // Поле не может быть null, Значение этого поля должно генерироваться автоматически
+
+    private String createdBy;
     private float area; // Значение поля должно быть больше 0
     private long numberOfRooms; // Значение поля должно быть больше 0
     private Furnish furnish; // Поле может быть null
@@ -18,20 +20,22 @@ public class Flat implements Comparable<Flat>, Serializable {
     private Transport transport; // Поле не может быть null
     private House house; // Поле может быть null
 
+
     public Flat(){
         setCreationDate();
     }
 
-    public Flat(UUID id, String name, Coordinates coordinates, Date creationDate, float area, long numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
-        this(name, coordinates, area, numberOfRooms, furnish, view, transport, house);
+    public Flat(String createdBy, UUID id, String name, Coordinates coordinates, Date creationDate, float area, long numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
+        this(createdBy, name, coordinates, area, numberOfRooms, furnish, view, transport, house);
         setId(id);
         setCreationDate(creationDate);
     }
 
-    public Flat(String name, Coordinates coordinates, float area, long numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
+    public Flat(String createdBy, String name, Coordinates coordinates, float area, long numberOfRooms, Furnish furnish, View view, Transport transport, House house) {
         setName(name);
         setCoordinates(coordinates);
         setCreationDate();
+        setCreatedBy(createdBy);
         setArea(area);
         setNumberOfRooms(numberOfRooms);
         setFurnish(furnish);
@@ -82,6 +86,14 @@ public class Flat implements Comparable<Flat>, Serializable {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public void setName(String name) {
@@ -144,6 +156,7 @@ public class Flat implements Comparable<Flat>, Serializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         String result = "\n\t{\n";
         result += "\t\t" + "\u001B[33m\"id\"\u001B[0m: " + "\u001B[36m" + id + "\u001B[0m,\n";
+        result += "\t\t" + "\u001B[33m\"owner\"\u001B[0m: " + "\u001B[34m" + createdBy + "\u001B[0m,\n";
         result += "\t\t" + "\u001B[33m\"name\"\u001B[0m: " + "\u001B[32m\"" + name + "\"\u001B[0m,\n";
         result += "\t\t" + "\u001B[33m\"coordinates\"\u001B[0m: " + coordinates + ",\n";
         result += "\t\t" + "\u001B[33m\"creationDate\"\u001B[0m: " + "\u001B[35m\"" + creationDate.toInstant().atZone(ZoneId.systemDefault()).format(formatter) + "\"\u001B[0m,\n";

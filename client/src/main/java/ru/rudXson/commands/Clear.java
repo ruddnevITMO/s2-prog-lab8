@@ -10,7 +10,7 @@ public class Clear implements Command {
     @Override
     public void execute(String[] args, Client client, boolean fromExecute, Scanner executeScanner) throws IOException {
         client.sendRequestGetResponse(new ClearRequest());
-        System.out.println("Collection is clear now!");
+        System.out.println("All elements you owned, were successfully cleared.");
     }
 
 }

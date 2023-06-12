@@ -9,6 +9,7 @@ import ru.rudXson.requests.UpdateRequest;
 import ru.rudXson.responses.UpdateResponse;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -38,8 +39,7 @@ public class Update implements Command {
 
         UpdateResponse response = (UpdateResponse) client.sendRequestGetResponse(new UpdateRequest(id, flat));
 
-        if (response.error != null) System.out.println(response.error);
-
+        System.out.println(Objects.requireNonNullElse(response.error, "Element updated successfully."));
     }
 
 }

@@ -7,6 +7,7 @@ import ru.rudXson.exceptions.WrongArgsException;
 
 import javax.naming.NoPermissionException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -42,7 +43,10 @@ public class CommandExecutor {
      * Starts the interactive mode for the user to input commands
      */
     public void startInteractiveMode(Client client){
+        String[] noLoginCommands = new String[] {"login", "register", "exit"};
+
         System.out.println("Entered the interactive mode!");
+        System.out.println("You should login or register first.");
         while (true) {
             System.out.print("\u001B[36mEnter command: \u001B[0m");
             String[] line = this.scanner.nextLine().toLowerCase().strip().split(" ");
@@ -51,6 +55,8 @@ public class CommandExecutor {
                 continue;
             }
             try {
+                if (!Arrays.asList(noLoginCommands).contains(line[0]) && client.getUsername() == null)
+                    throw new IOException("You have to login or register first!");
                 commands.get(line[0]).execute(line, client, false, null);
             } catch (NotEnoughArgsException | NoPermissionException | WrongArgsException | IOException e) {
                 System.out.println("An error occurred: " + e.getMessage());

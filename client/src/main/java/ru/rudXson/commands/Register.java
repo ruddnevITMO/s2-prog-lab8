@@ -20,17 +20,17 @@ public class Register implements Command {
         Scanner currScanner = this.scanner;
         if (fromExecute) currScanner = executeScanner;
         InputManager inManager = new InputManager(currScanner);
-        while (true) {
+        for (int i = 0; i < 3; i++) {
             client.setCreds(inManager.registerPrompt());
             RegisterResponse response = (RegisterResponse) client.sendRequestGetResponse(new RegisterRequest());
             if (response.error == null) {
+                System.out.println("Successfully registered! Now you have access to all of the commands.");
                 break;
             }
             System.out.println(response.error);
         }
 
 
-        System.out.println("Successfully registered! Now you have access to all of the commands.");
     }
 
 

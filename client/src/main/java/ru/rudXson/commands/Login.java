@@ -20,17 +20,15 @@ public class Login implements Command {
         Scanner currScanner = this.scanner;
         if (fromExecute) currScanner = executeScanner;
         InputManager inManager = new InputManager(currScanner);
-        while (true) {
+        for (int i = 0; i < 3; i++) {
             client.setCreds(inManager.loginPrompt());
             LoginResponse response = (LoginResponse) client.sendRequestGetResponse(new LoginRequest());
             if (response.error == null) {
+                System.out.println("Successfully logged in! Now you have access to all of the commands.");
                 break;
             }
             System.out.println(response.error);
         }
-
-
-        System.out.println("Successfully logged in! Now you have access to all of the commands.");
     }
 
 

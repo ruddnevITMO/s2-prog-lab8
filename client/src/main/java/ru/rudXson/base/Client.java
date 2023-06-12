@@ -20,6 +20,9 @@ public class Client {
     private final DatagramChannel client;
     private final InetSocketAddress addr;
 
+    private String username;
+    private String password;
+
     public Client(InetAddress address, int port) throws IOException {
         this.addr = new InetSocketAddress(address, port);
         this.client = DatagramChannel.open().bind(null).connect(addr);
@@ -27,8 +30,14 @@ public class Client {
     }
 
     public Response sendRequestGetResponse(Request request) throws IOException {
+        request.setCreds(username, password);
         sendRequest(SerializationUtils.serialize(request));
         return SerializationUtils.deserialize(getResponse());
+    }
+
+    public void setCreds(String[] creds) {
+        this.username = creds[0];
+        this.password = creds[1];
     }
 
     private void sendRequest(byte[] data) throws IOException {

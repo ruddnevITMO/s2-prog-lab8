@@ -50,8 +50,43 @@ public class InputManager {
         System.out.print("Number of lifts (greater than 0): ");
         int numberOfLifts = readPositiveInt();
 
+
         flat.setHouse(new House(houseName, year, numberOfLifts));
 
+    }
+
+    public String[] loginPrompt() {
+        System.out.print("Enter username: ");
+        String username = readNonEmptyString();
+        System.out.print("Enter password: ");
+        String password = readNonEmptyString();
+        return new String[] {username, password};
+    }
+
+    public String[] registerPrompt() {
+        return new String[] {readUsername(), readPassword()};
+    }
+
+    private String readUsername() {
+        System.out.print("Enter username: ");
+        String input = this.scanner.nextLine().trim();
+        while (input.isEmpty() | !input.matches("^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$")) {
+            System.out.println("Username shouldn't be less than 3 or more than 20 characters, contain anything other than alphanumeric characters, underscores and dots, latter two should not be next to each other nor be at the start or end of the username.");
+            System.out.print("Please enter proper username: ");
+            input = this.scanner.nextLine().trim();
+        }
+        return input;
+    }
+
+    private String readPassword() {
+        System.out.print("Enter password: ");
+        String input = this.scanner.nextLine().trim();
+        while (input.isEmpty() | !input.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,50}$")) {
+            System.out.println("Can't have that as a password. Remember, your password needs to have at least 8 characters (and at most 50), one letter and one number.");
+            System.out.print("Please enter proper password: ");
+            input = this.scanner.nextLine().trim();
+        }
+        return input;
     }
 
     private String readNonEmptyString() {
@@ -129,7 +164,10 @@ public class InputManager {
         boolean validInput = false;
         while (!validInput) {
             try {
-                if (input.matches("\\d+")) { // check if input is a number
+                if (input.equals("")) {
+                    return null;
+                }
+                else if (input.matches("\\d+")) { // check if input is a number
                     int index = Integer.parseInt(input);
                     try {
                         furnish = Furnish.values()[index - 1]; // use the index to get the enum value
@@ -154,6 +192,9 @@ public class InputManager {
         boolean validInput = false;
         while (!validInput) {
             try {
+                if (input.equals("")) {
+                    return null;
+                }
                 if (input.matches("\\d+")) { // check if input is a number
                     int index = Integer.parseInt(input);
                     try {

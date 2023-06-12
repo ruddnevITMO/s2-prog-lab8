@@ -19,6 +19,8 @@ public class CommandExecutor {
     Scanner scanner = new Scanner(System.in);
 
     public CommandExecutor() {
+        commands.put("login", new Login(scanner));
+        commands.put("register", new Register(scanner));
         commands.put("help", new Help());
         commands.put("show", new Show());
         commands.put("add", new Add(scanner));
@@ -50,7 +52,7 @@ public class CommandExecutor {
             }
             try {
                 commands.get(line[0]).execute(line, client, false, null);
-            } catch (NotEnoughArgsException |  NoPermissionException | WrongArgsException | IOException e) {
+            } catch (NotEnoughArgsException | NoPermissionException | WrongArgsException | IOException e) {
                 System.out.println("An error occurred: " + e.getMessage());
             } catch (ExitException e) {
                 break;

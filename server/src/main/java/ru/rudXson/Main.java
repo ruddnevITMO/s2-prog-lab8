@@ -8,6 +8,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.concurrent.Executors;
 
 public class Main {
     /**
@@ -37,7 +38,6 @@ public class Main {
             password = scanner.nextLine();
         }
 
-
         while (true) {
             try {
                 controller = new SQLController(url, user, password);
@@ -53,16 +53,13 @@ public class Main {
             }
         }
 
-        CommandExecutor go = new CommandExecutor(controller, scanner);
-        CommandHandler handler = new CommandHandler(go);
+        CommandExecutor commandExecutor = new CommandExecutor(controller);
+
+        Executors.newSingleThreadExecutor().execute(new ServerCommandExecutor());
 
         try {
-            Runnable runnable = new ServerCommandExecutor();
-            Thread thread = new Thread(runnable);
-            thread.start();
-
-            var server = new Server(new InetSocketAddress(InetAddress.getLocalHost(), 1488), handler);
-            server.run();
+            var server = new Server(new InetSocketAddress(InetAddress.getLocalHost(), 1488), commandExecutor);
+            server.go();
         } catch (SocketException e) {
             System.out.println("Случилась ошибка сокета");
         } catch (UnknownHostException e) {

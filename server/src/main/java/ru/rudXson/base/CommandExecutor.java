@@ -3,7 +3,6 @@ package ru.rudXson.base;
 import ru.rudXson.commands.*;
 
 import java.util.HashMap;
-import java.util.Scanner;
 
 /**
  * This class represents a command executor that is used to execute different commands
@@ -17,8 +16,10 @@ public class CommandExecutor {
      * Constructs a new instance of the CommandExecutor
      * @param controller the command line interface controller to be used to execute the commands
      */
-    public CommandExecutor(SQLController controller, Scanner scanner) {
+    public CommandExecutor(SQLController controller) {
         this.controller = controller;
+        commands.put("login", new Login(controller));
+        commands.put("register", new Register(controller));
         commands.put("help", new Help(commands));
         commands.put("show", new Show(controller));
         commands.put("add", new Add(controller));

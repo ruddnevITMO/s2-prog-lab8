@@ -8,5 +8,11 @@ public enum View implements Serializable {
     PARK,
     NORMAL,
     GOOD,
-    TERRIBLE
+    TERRIBLE;
+
+
+    @Override
+    public String toString() {
+        return "'" + this.name() + "'";
+    }
 }

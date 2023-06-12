@@ -6,5 +6,10 @@ public enum Furnish implements Serializable {
     DESIGNER,
     NONE,
     FINE,
-    LITTLE
+    LITTLE;
+
+    @Override
+    public String toString() {
+        return "'" + this.name() + "'";
+    }
 }

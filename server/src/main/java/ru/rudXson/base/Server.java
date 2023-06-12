@@ -2,12 +2,9 @@ package ru.rudXson.base;
 
 import com.google.common.primitives.Bytes;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import ru.rudXson.exceptions.ExitException;
 import ru.rudXson.requests.Request;
-import ru.rudXson.responses.ErrorResponse;
 import ru.rudXson.responses.Response;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.SerializationException;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -15,108 +12,75 @@ import java.io.IOException;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
-    private final CommandHandler commandHandler;
-
-    private final int sizePerSend = 1024;
-
+    private final CommandExecutor commandExecutor;
     private final DatagramSocket datagramSocket;
+    private final ExecutorService fixedReceiveService = Executors.newFixedThreadPool(5);
+    private final ExecutorService fixedHandleService = Executors.newFixedThreadPool(5);
+    private final ExecutorService cachedRespondService = Executors.newCachedThreadPool();
 
 
-    private boolean running = true;
-
-    public Server(InetSocketAddress addr, CommandHandler commandHandler) throws SocketException {
-        this.commandHandler = commandHandler;
+    public Server(InetSocketAddress addr, CommandExecutor commandExecutor) throws SocketException {
+        this.commandExecutor = commandExecutor;
         this.datagramSocket = new DatagramSocket(addr);
-        this.datagramSocket.setReuseAddress(true);
     }
 
-    public void run() throws ExitException {
+    public void go() {
+        fixedReceiveService.submit(() -> {
+            while (true) {
+                Pair<Byte[], SocketAddress> requestPacket = getRequest();
+                datagramSocket.connect(requestPacket.getValue());
 
-        while (running) {
-            Pair<Byte[], SocketAddress> dataPair;
+                Request request = SerializationUtils.deserialize(ArrayUtils.toPrimitive(requestPacket.getKey()));
 
-            try {
-                var result = new byte[0];
-                SocketAddress addr;
+                fixedHandleService.submit(() -> {
+                    Response response = commandExecutor.execute(request);
+                    var data = SerializationUtils.serialize(response);
 
-
-                var data = new byte[sizePerSend];
-
-                var datagramPacket = new DatagramPacket(data, sizePerSend);
-                datagramSocket.receive(datagramPacket);
-
-                addr = datagramPacket.getSocketAddress();
-
-                result = Bytes.concat(result, Arrays.copyOf(data, data.length - 1));
-
-                dataPair = new ImmutablePair<>(ArrayUtils.toObject(result), addr);
-
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
+                    cachedRespondService.submit(() -> {
+                        try {
+                            sendResponse(data, requestPacket.getValue());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                });
                 datagramSocket.disconnect();
-                continue;
             }
+        });
+    }
 
-            var dataFromClient = dataPair.getKey();
-            var clientAddr = dataPair.getValue();
+    public Pair<Byte[], SocketAddress> getRequest() throws IOException {
+        byte[] result = new byte[0];
+        SocketAddress addr;
 
-            try {
-                datagramSocket.connect(clientAddr);
-            } catch (Exception e) {
-            }
+        byte[] data;
+        do {
+            data = new byte[1024];
+            var datagramPacket = new DatagramPacket(data, 1024);
+            datagramSocket.receive(datagramPacket);
+            addr = datagramPacket.getSocketAddress();
 
-            Request request;
-            try {
-                request = SerializationUtils.deserialize(ArrayUtils.toPrimitive(dataFromClient));
-            } catch (SerializationException e) {
-                datagramSocket.disconnect();
-                continue;
-            }
+            result = Bytes.concat(result, Arrays.copyOf(data, data.length - 1));
+        } while (data[data.length - 1] != 1);
 
-            Response response = commandHandler.handle(request);
-
-            if (response == null) response = new ErrorResponse(request.name);
-
-            var data = SerializationUtils.serialize(response);
-
-            try {
-                sendResponse(data, clientAddr);
-            } catch (Exception e) {
-                System.out.println("idk");
-            }
-
-            datagramSocket.disconnect();
-        }
-
-        datagramSocket.close();
+        return new ImmutablePair<>(ArrayUtils.toObject(result), addr);
     }
 
     public void sendResponse(byte[] data, SocketAddress addr) throws IOException {
-        int dataSizePerSend = sizePerSend - 1;
-        byte[][] responseSplit = new byte[(int) Math.ceil(data.length / (double) dataSizePerSend)][dataSizePerSend];
+        byte[][] packetStorage = new byte[(int) Math.ceil(data.length / (double) 1023)][1023];
 
-        int currPos = 0;
-        for (int i = 0; i < responseSplit.length; i++) {
-            responseSplit[i] = Arrays.copyOfRange(data, currPos, currPos + dataSizePerSend);
-            currPos += dataSizePerSend;
+        for (int i = 0; i < packetStorage.length; i++) packetStorage[i] = Arrays.copyOfRange(data, 1023 * i, 1023 * (i + 1));
+
+        for (byte[] packet : packetStorage) {
+            var currPacket = Bytes.concat(packet, new byte[]{1});
+            var datagramPacket = new DatagramPacket(currPacket, 1024, addr);
+            datagramSocket.send(datagramPacket);
         }
-
-        for (int currChunkNum = 0; currChunkNum < responseSplit.length; currChunkNum++) {
-            var currChunk = responseSplit[currChunkNum];
-            if (currChunkNum == responseSplit.length - 1) {
-                var lastCurrChunk = Bytes.concat(currChunk, new byte[]{1});
-                var datagramPacket = new DatagramPacket(lastCurrChunk, sizePerSend, addr);
-                datagramSocket.send(datagramPacket);
-            } else {
-                var datagramPacket = new DatagramPacket(ByteBuffer.allocate(sizePerSend).put(currChunk).array(), sizePerSend, addr);
-                datagramSocket.send(datagramPacket);
-            }
-        }
-
+        var datagramPacket = new DatagramPacket(ByteBuffer.allocate(1024).put(packetStorage[packetStorage.length - 1]).array(), 1024, addr);
+        datagramSocket.send(datagramPacket);
     }
 }
-
-
-

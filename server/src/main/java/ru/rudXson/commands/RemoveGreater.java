@@ -3,10 +3,12 @@ package ru.rudXson.commands;
 
 import ru.rudXson.base.SQLController;
 import ru.rudXson.datatype.Flat;
+import ru.rudXson.exceptions.WrongArgsException;
 import ru.rudXson.requests.RemoveGreaterRequest;
 import ru.rudXson.requests.Request;
 import ru.rudXson.responses.RemoveGreaterResponse;
 import ru.rudXson.responses.Response;
+
 
 public class RemoveGreater implements Command {
     private final SQLController controller;
@@ -20,7 +22,14 @@ public class RemoveGreater implements Command {
         RemoveGreaterRequest request = (RemoveGreaterRequest) req;
         Flat mainFlat = request.flat;
 
-        controller.getFlats().removeIf(flat -> mainFlat.compareTo(flat) > 0);
+        for (Flat flat : controller.getFlats()) {
+            if (mainFlat.compareTo(flat) > 0) {
+                try {
+                    controller.removeFlatByID(flat.getId());
+                } catch (WrongArgsException ignored) {
+                }
+            }
+        }
         return new RemoveGreaterResponse(null);
     }
 

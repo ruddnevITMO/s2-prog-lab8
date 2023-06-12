@@ -1,6 +1,7 @@
 package ru.rudXson.commands;
 
 import ru.rudXson.base.SQLController;
+import ru.rudXson.exceptions.WrongArgsException;
 import ru.rudXson.requests.Request;
 import ru.rudXson.responses.RemoveFirstResponse;
 import ru.rudXson.responses.Response;
@@ -15,7 +16,10 @@ public class RemoveFirst implements Command {
 
     @Override
     public Response execute(Request req) {
-        controller.getFlats().poll();
+        if (controller.getFlats().isEmpty()) return new RemoveFirstResponse("Already empty!");
+        try {
+            controller.removeFlatByID(controller.getFlats().peek().getId());
+        } catch (WrongArgsException ignored) {}
         return new RemoveFirstResponse(null);
     }
 

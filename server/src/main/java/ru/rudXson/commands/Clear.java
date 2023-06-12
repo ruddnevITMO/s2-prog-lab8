@@ -1,27 +1,22 @@
 package ru.rudXson.commands;
 
 import ru.rudXson.base.SQLController;
-import ru.rudXson.datatype.Flat;
 import ru.rudXson.requests.Request;
-import ru.rudXson.responses.ClearResponse;
 import ru.rudXson.responses.Response;
+import ru.rudXson.responses.ClearResponse;
 
-import java.util.PriorityQueue;
 
 public class Clear implements Command {
 
-    private final PriorityQueue<Flat> collection;
+    private final SQLController controller;
 
     public Clear(SQLController controller) {
-        this.collection = controller.getFlats();
+        this.controller = controller;
     }
 
     @Override
     public Response execute(Request req) {
-        if (collection.isEmpty()) {
-            return new ClearResponse(null);
-        }
-        collection.clear();
+        controller.clearCollection();
         return new ClearResponse(null);
     }
 

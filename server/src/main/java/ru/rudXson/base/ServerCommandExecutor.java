@@ -18,9 +18,8 @@ public class ServerCommandExecutor implements Runnable {
 
     Scanner scanner = new Scanner(System.in);
 
-    public ServerCommandExecutor(SQLController controller) {
+    public ServerCommandExecutor() {
         commands.put("exit", new Exit());
-        commands.put("save", new Save(controller, scanner));
     }
 
     /**
@@ -44,15 +43,5 @@ public class ServerCommandExecutor implements Runnable {
                 break;
             }
         }
-    }
-
-    /**
-     * Returns the command object for the given command name
-     * @param commandName the name of the command to get
-     * @return the command object for the given command name
-     */
-    public Command getCommand(String commandName) {
-        if(!commands.containsKey(commandName)) return null; // check if command exist
-        return commands.get(commandName);
     }
 }

@@ -11,17 +11,18 @@ public class InputManager {
     public InputManager(Scanner scanner) {
         this.scanner = scanner;
     }
-    
+
+
     public void describeFlat(Flat flat) {
         System.out.println("Please enter the following information:");
         System.out.print("Name: ");
         flat.setName(readNonEmptyString());
 
         System.out.print("X coordinate (less than or equal to 314): ");
-        int x = readCoordinate();
+        double x = readCoordinate();
 
         System.out.print("Y coordinate (less than or equal to 314): ");
-        int y = readCoordinate();
+        double y = readCoordinate();
 
         flat.setCoordinates(new Coordinates(x, y));
 
@@ -62,19 +63,19 @@ public class InputManager {
         return input;
     }
 
-    private int readCoordinate() {
-        int coordinate = 0;
+    private double readCoordinate() {
+        double coordinate = 0;
         boolean validInput = false;
         while (!validInput) {
             try {
-                coordinate = this.scanner.nextInt();
+                coordinate = this.scanner.nextDouble();
                 if (coordinate > 314) {
                     System.out.print("Coordinate can't be greater than 314. Please enter again: ");
                 } else {
                     validInput = true;
                 }
             } catch (InputMismatchException e) {
-                System.out.print("Please enter a valid integer: ");
+                System.out.print("Please enter a valid double: ");
                 this.scanner.nextLine();
             }
         }

@@ -36,7 +36,7 @@ public class Coordinates implements Serializable {
     public String toString() {
         return "{\n" +
                 "\t\t\t" + "\u001B[33m\"x\"\u001B[0m: " + "\u001B[36m" + x + "\u001B[0m,\n" +
-                "\t\t\t" + "\u001B[33m\"y\"\u001B[0m: " + "\u001B[36m" + y + "\u001B[0m,\n" +
+                "\t\t\t" + "\u001B[33m\"y\"\u001B[0m: " + "\u001B[36m" + y + "\u001B[0m\n" +
                 "\t\t}";
     }
 }

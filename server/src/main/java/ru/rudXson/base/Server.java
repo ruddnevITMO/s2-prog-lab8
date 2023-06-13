@@ -76,11 +76,11 @@ public class Server {
         for (int i = 0; i < packetStorage.length; i++) packetStorage[i] = Arrays.copyOfRange(data, 1023 * i, 1023 * (i + 1));
 
         for (byte[] packet : packetStorage) {
-            var currPacket = Bytes.concat(packet, new byte[]{1});
-            var datagramPacket = new DatagramPacket(currPacket, 1024, addr);
+            DatagramPacket datagramPacket = new DatagramPacket(ByteBuffer.allocate(1024).put(packet).array(), 1024, addr);
             datagramSocket.send(datagramPacket);
         }
-        var datagramPacket = new DatagramPacket(ByteBuffer.allocate(1024).put(packetStorage[packetStorage.length - 1]).array(), 1024, addr);
+        byte[] currPacket = Bytes.concat(packetStorage[packetStorage.length - 1], new byte[]{1});
+        DatagramPacket datagramPacket = new DatagramPacket(currPacket, 1024, addr);
         datagramSocket.send(datagramPacket);
     }
 }

@@ -24,7 +24,7 @@ public class Main {
         String user;
         String password;
 
-        if (args.length < 4) {
+        if (args.length >= 3) {
             url = args[0];
             user = args[1];
             password = args[2];
@@ -43,6 +43,7 @@ public class Main {
                 controller = new SQLController(url, user, password);
                 break;
             } catch (SQLException e) {
+                System.out.println(e.getMessage());
                 System.out.println("Wrong credentials. Try again.");
                 System.out.print("Please enter JDBC url: ");
                 url = scanner.nextLine();

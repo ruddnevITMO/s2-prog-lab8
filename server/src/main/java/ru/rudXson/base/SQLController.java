@@ -45,7 +45,7 @@ public class SQLController {
 
     public Connection connect() throws SQLException {
         Connection connection;
-        connection = DriverManager.getConnection(DBUrl + "?allowMultiQueries=true", DBUser, DBPassword);
+        connection = DriverManager.getConnection("jdbc:postgresql://" + DBUrl, DBUser, DBPassword);
         System.out.println("Connected to the PostgreSQL server successfully.");
         return connection;
     }
@@ -121,6 +121,7 @@ public class SQLController {
         int houseId = 0;
 
 
+        flat.setCreatedBy(username);
         String coordinatesQuery = "INSERT INTO coordinates(x, y)" +
                 " VALUES " +
                 "(" + flat.getCoordinates().getX() +

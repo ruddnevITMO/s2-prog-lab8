@@ -366,6 +366,7 @@ public class SQLController {
         try (Statement statement = this.connection.createStatement()) {
             statement.executeUpdate(query);
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             return new RegisterResponse("This username already exists.");
         }
 

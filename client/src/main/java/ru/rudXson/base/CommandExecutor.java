@@ -43,7 +43,7 @@ public class CommandExecutor {
      * Starts the interactive mode for the user to input commands
      */
     public void startInteractiveMode(Client client){
-        String[] noLoginCommands = new String[] {"login", "register", "exit"};
+        String[] noLoginCommands = new String[] {"login", "register", "exit", "help"};
 
         System.out.println("Entered the interactive mode!");
         System.out.println("You should login or register first.");

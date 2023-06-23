@@ -16,5 +16,6 @@ public class Help implements Command{
         for (String command:response.descriptions.keySet()){
             System.out.printf("%-35s   %-90s %n", command, response.descriptions.get(command));
         }
+        System.out.printf("%-35s   %-90s %n", "execute_script", "Executes a script from a file");
     }
 }

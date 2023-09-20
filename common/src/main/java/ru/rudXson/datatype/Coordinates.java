@@ -39,4 +39,9 @@ public class Coordinates implements Serializable {
                 "\t\t\t" + "\u001B[33m\"y\"\u001B[0m: " + "\u001B[36m" + y + "\u001B[0m\n" +
                 "\t\t}";
     }
+
+    @Override
+    public int hashCode() {
+        return (x + ":" + y).hashCode();
+    }
 }

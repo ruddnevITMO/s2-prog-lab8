@@ -87,4 +87,9 @@
                     "\t\t\t" + "\u001B[33m\"numberOfLifts\"\u001B[0m: " + "\u001B[36m" + numberOfLifts + "\u001B[0m\n" +
                     "\t\t}";
         }
+
+        @Override
+        public int hashCode() {
+            return (name.hashCode() + year.hashCode() + ":" + numberOfLifts).hashCode();
+        }
     }

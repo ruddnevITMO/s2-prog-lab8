@@ -186,6 +186,20 @@ public class Flat implements Comparable<Flat>, Serializable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return this.hashCode() == ((Flat) obj).hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return ("" + this.id.hashCode() + this.createdBy.hashCode() + this.name.hashCode() +
+                this.coordinates.hashCode() + this.creationDate.hashCode() +
+                this.area + this.numberOfRooms + this.furnish.hashCode() +
+                this.view.hashCode() + this.transport.hashCode() + this.house.hashCode()).hashCode();
+    }
+
+
+    @Override
     public int compareTo(Flat other) {
         return this.creationDate.compareTo(other.creationDate);
     }

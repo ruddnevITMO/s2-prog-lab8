@@ -39,32 +39,6 @@ public class CommandExecutor {
         commands.put("print_field_descending_transport", new PrintFieldDescendingTransport());
     }
 
-    /**
-     * Starts the interactive mode for the user to input commands
-     */
-    public void startInteractiveMode(Client client){
-        String[] noLoginCommands = new String[] {"login", "register", "exit", "help"};
-
-        System.out.println("Entered the interactive mode!");
-        System.out.println("You should login or register first.");
-        while (true) {
-            System.out.print("\u001B[36mEnter command: \u001B[0m");
-            String[] line = this.scanner.nextLine().toLowerCase().strip().split(" ");
-            if (!commands.containsKey(line[0])){
-                System.out.println("This command doesn't exist");
-                continue;
-            }
-            try {
-                if (!Arrays.asList(noLoginCommands).contains(line[0]) && client.getUsername() == null)
-                    throw new IOException("You have to login or register first!");
-                commands.get(line[0]).execute(line, client, false, null);
-            } catch (NotEnoughArgsException | NoPermissionException | WrongArgsException | IOException e) {
-                System.out.println("An error occurred: " + e.getMessage());
-            } catch (ExitException e) {
-                break;
-            }
-        }
-    }
 
     /**
      * Returns the command object for the given command name

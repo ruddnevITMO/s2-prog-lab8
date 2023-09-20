@@ -29,15 +29,24 @@ public class Client {
         this.client.configureBlocking(false);
     }
 
-    public Response sendRequestGetResponse(Request request) throws IOException {
+    public Response sendRequestGetResponse(Request request) {
         request.setCreds(username, password);
-        sendRequest(SerializationUtils.serialize(request));
-        return SerializationUtils.deserialize(getResponse());
+        try {
+            sendRequest(SerializationUtils.serialize(request));
+            return SerializationUtils.deserialize(getResponse());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setCreds(String[] creds) {
         this.username = creds[0];
         this.password = creds[1];
+    }
+
+    public void setCreds(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public String getUsername() {

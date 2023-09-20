@@ -1,0 +1,76 @@
+package ru.rudXson.l10n;
+
+import java.util.ListResourceBundle;
+
+public class Lab_ru extends ListResourceBundle {
+    private final Object[][] contents = {
+            {"welcome", "Привет"},
+            {"buttons.add", "Добавить элемент"},
+            {"buttons.addIfMin", "Добавить (если минимальный)"},
+            {"buttons.clear", "Очистить коллекцию"},
+            {"buttons.executeScript", "Выполнить скрипт"},
+            {"buttons.exit", "Выйти"},
+            {"buttons.info", "Информация"},
+            {"buttons.printDescending", "Фильтровать снизу вверх"},
+            {"buttons.printFieldDescendingTransport", "Вывести поля \"Транспорт\" снизу вверх"},
+            {"buttons.printUniqueHouse", "Вывести уникальные дома"},
+            {"buttons.removeByID", "Удалить по ID"},
+            {"buttons.removeFirst", "Удалить первую"},
+            {"buttons.removeGreater", "Удалить (больше чем)"},
+            {"buttons.update", "Обновить элемент"},
+            {"buttons.game", "Играть"},
+
+            {"entering1", "Вход в интерактивный режим!"},
+            {"entering2", "Сначала необходимо войти или зарегистрироваться." },
+            {"notexist","Эта команда не существует"},
+            {"error","Произошла ошибка:"},
+            {"ent","Пожалуйста, введите следующую информацию"},
+            {"name","Имя"},
+            {"xcord","Координата X (меньше или равна 314)"},
+            {"ycord","Координата Y (меньше или равна 314)"},
+            {"area","Область"},
+            {"numofrooms","Количество комнат"},
+            {"furnish", "Мебель (DESIGNER, NONE, FINE, LITTLE) или (1, 2, 3, 4)"},
+            {"view", "Вид (STREET, PARK, NORMAL, GOOD, TERRIBLE) или (1, 2, 3, 4, 5)"},
+            {"transport","Транспорт (FEW, NONE, NORMAL) или (1, 2, 3)"},
+            {"housename","Название дома (или не вводите ничего)"},
+            {"year","Год (больше 0)"},
+            {"numoflifts","Количество лифтов (больше 0)"},
+            {"login","Имя пользователя"},
+            {"password","Пароль"},
+            {"login.button", "Войти"},
+            {"register.button", "Зарегистрироваться"},
+            {"wronglog","Имя пользователя не должно быть меньше 3 или больше 20 символов, содержать что-либо кроме буквенно-цифровых символов, подчеркиваний и точек, последние не должны находиться рядом друг с другом, не должны быть в начале или конце имени пользователя."},
+            {"trylog","Пожалуйста, введите правильное имя пользователя"},
+            {"wrongpass","Это не может быть паролем. Помните, что ваш пароль должен содержать не менее 8 символов (и не более 50), одну букву и одну цифру."},
+            {"trypass","Пожалуйста, введите правильный пароль"},
+            {"tab.table", "Квартиры"},
+            {"tab.3dFrame", "3D Фрейм"},
+            {"column.id", "ID"},
+            {"column.createdBy", "Владелец"},
+            {"column.name", "Название"},
+            {"column.coordinatesX", "Координата X"},
+            {"column.coordinatesY", "Координата Y"},
+            {"column.creationDate", "Дата создания"},
+            {"column.numberOfRooms", "Кол-во комнат"},
+            {"column.furnish", "Мебель"},
+            {"column.view", "Вид из окна"},
+            {"column.transport", "Транспорт"},
+            {"column.houseName", "Имя здания"},
+            {"column.houseYear", "Год здания"},
+            {"column.houseNumberOfLifts", "Лифтов в здании"},
+            {"column.area", "Площадь"},
+            {"language.russian", "Русский"},
+            {"language.finnish", "Финский"},
+            {"language.lithuanian", "Литовский"},
+            {"language.englishIreland", "Английский (Ирландия)"},
+            {"titles.login", "Вход в систему"},
+            {"titles.register", "Регистрация пользователя"},
+            {"titles.main", "JavaBNB Приложение"},
+    };
+    @Override
+    protected Object[][] getContents(){
+        return contents;
+    }
+
+}

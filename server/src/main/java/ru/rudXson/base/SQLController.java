@@ -70,7 +70,7 @@ public class SQLController {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssX");
                 Date creationDate = dateFormat.parse(rs.getString("creation_date"));
                 String createdBy = rs.getString("username");
-                float area = rs.getFloat("coordinates_id");
+                float area = rs.getFloat("area");
                 int numberOfRooms = rs.getInt("number_of_rooms");
 
                 Furnish furnish;
